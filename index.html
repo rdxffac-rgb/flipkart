@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Replica - GitHub Render</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --flipkart-yellow: #FFD21A;
+            --flipkart-blue: #0A74F2;
+            --bg-color: #F1F4F9;
+            --text-main: #212121;
+            --text-sub: #757575;
+            --border-color: #E0E0E0;
+            --realme-bg: #D4EFFE;
+            --rec-box-bg: #E3EAFC;
+            --suggested-box-bg: #EEEEEE;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px; /* Emulates a phone width */
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- Header / Status Bar Area --- */
+        .status-bar-spacer {
+            height: 24px;
+            background-color: #03A9F4; /* Topmost blue bar */
+        }
+
+        .top-section {
+            background-color: var(--bg-color);
+            padding: 10px 16px;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .top-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .top-nav-btn i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .top-nav-btn.flipkart {
+            background-color: var(--flipkart-yellow);
+            color: var(--flipkart-blue);
+            width: 48%;
+        }
+
+        .top-nav-btn.travel {
+            background-color: white;
+            color: #E2574A;
+            width: 52%;
+            border: 1px solid var(--border-color);
+        }
+
+        .location-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background-color: white;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #212121;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .location-text {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .location-icon {
+            margin-right: 6px;
+            color: #555;
+        }
+
+        .coin-badge {
+            background-color: #FEDD00;
+            color: black;
+            border-radius: 20px;
+            padding: 3px 8px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* --- Search Bar --- */
+        .search-container {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background-color: white;
+        }
+
+        .search-input-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #D1D8E0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-right: 12px;
+        }
+
+        .search-input-wrapper i {
+            color: #7A8699;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .search-input-wrapper input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            font-size: 14px;
+            background: none;
+        }
+
+        .scan-icon {
+            font-size: 22px;
+            color: #7A8699;
+        }
+
+        /* --- Category Icons --- */
+        .category-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            margin: 0 16px;
+            background-color: white;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            width: 60px; /* Ensures consistent alignment */
+            cursor: pointer;
+        }
+
+        .category-item i {
+            font-size: 24px;
+            color: #757575;
+            margin-bottom: 6px;
+        }
+
+        /* Specifically for the yellow icon */
+        .category-item.special-icon i {
+            background-color: var(--flipkart-yellow);
+            color: var(--flipkart-blue);
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .category-item.active {
+            color: var(--flipkart-blue);
+            position: relative;
+        }
+
+        .category-item.active i {
+            color: var(--flipkart-blue);
+        }
+
+        .category-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background-color: var(--flipkart-blue);
+        }
+
+        /* --- Main Banner Section --- */
+        .banner-section {
+            background-color: var(--realme-bg);
+            padding: 20px 16px;
+            display: flex;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .banner-info {
+            flex: 1;
+        }
+
+        .realme-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .realme-logo h2 {
+            margin: 0;
+            color: #212121;
+            font-size: 18px;
+        }
+
+        .flipkart-unique {
+            margin-left: 10px;
+            font-size: 10px;
+            background-color: #FFDA44;
+            color: #0A3C91;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .banner-info h1 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            line-height: 1.1;
+        }
+
+        .p4-lite {
+            font-weight: bold;
+        }
+
+        .from-price {
+            font-size: 14px;
+            font-weight: normal;
+            color: #555;
+        }
+
+        .segment-only {
+            font-size: 12px;
+            color: #212121;
+            margin-bottom: 12px;
+        }
+
+        .years-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFE355, #D29A1B);
+            color: #1A3E70;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
+        .banner-phone-image {
+            width: 140px;
+            height: auto;
+            position: absolute;
+            bottom: 20px;
+            right: 16px;
+        }
+
+        .ad-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            color: black;
+            font-size: 9px;
+            padding: 2px 4px;
+            border-radius: 2px;
+            border: 1px solid var(--border-color);
+            opacity: 0.8;
+        }
+
+        /* --- Recommendations section --- */
+        .recs-section {
+            background-color: var(--rec-box-bg);
+            padding: 20px 16px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recs-section h2 {
+            font-size: 18px;
+            margin: 0 0 16px 0;
+            color: #212121;
+        }
+
+        .recs-list {
+            display: flex;
+            overflow-x: scroll;
+            gap: 12px;
+            padding-bottom: 10px;
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .recs-list::-webkit-scrollbar {
+            display: none;  /* WebKit */
+        }
+
+        .rec-item {
+            flex: 0 0 120px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .rec-img-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: #EEE;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .rec-img-placeholder img {
+            max-width: 90%;
+            max-height: 90%;
+            display: block;
+        }
+
+        .rec-title {
+            font-size: 12px;
+            color: #757575;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* --- Suggested section --- */
+        .suggested-section {
+            padding: 20px 16px;
+            padding-bottom: 80px; /* Space for footer */
+        }
+
+        .suggested-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .suggested-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #212121;
+        }
+
+        .view-all-btn {
+            background-color: #212121;
+            color: white;
+            font-size: 18px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .suggested-list {
+            display: flex;
+            overflow-x: scroll;
+            gap: 12px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .suggested-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .suggested-item {
+            flex: 0 0 140px;
+            background-color: var(--suggested-box-bg);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        .suggested-img-placeholder {
+            width: 116px;
+            height: 116px;
+            background-color: white;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .suggested-img-placeholder img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        /* --- Footer Nav Bar --- */
+        .footer-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .footer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: #757575;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .footer-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .footer-item.active {
+            color: var(--flipkart-blue);
+        }
+
+        .footer-item.active i {
+            color: var(--flipkart-blue);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #E63946;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="status-bar-spacer"></div>
+
+        <div class="top-section">
+            <div class="top-nav">
+                <a href="#" class="top-nav-btn flipkart">
+                    <i class="fas fa-bolt"></i> Flipkart
+                </a>
+                <a href="#" class="top-nav-btn travel">
+                    <i class="fas fa-plane"></i> Travel
+                </a>
+            </div>
+
+            <div class="location-bar">
+                <div class="location-text">
+                    <i class="fas fa-map-marker-alt location-icon"></i>
+                    Jaitsar, 3jsd, Jaitsar Railway Station, Vijaina...
+                </div>
+                <div class="coin-badge">
+                    <i class="fas fa-circle" style="color:#FFF11A; font-size: 11px; margin-right:4px;"></i> 7
+                </div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="laptops">
+                <i class="fas fa-camera" style="color:#A4ACB3; font-size:16px;"></i>
+            </div>
+            <i class="fas fa-expand scan-icon"></i>
+        </div>
+
+        <div class="category-nav">
+            <div class="category-item special-icon active">
+                <i class="fas fa-gift"></i>
+                For You
+            </div>
+            <div class="category-item">
+                <i class="fas fa-tshirt"></i>
+                Fashion
+            </div>
+            <div class="category-item">
+                <i class="fas fa-mobile-alt"></i>
+                Mobiles
+            </div>
+            <div class="category-item">
+                <i class="fas fa-pump-soap"></i>
+                Beauty
+            </div>
+            <div class="category-item">
+                <i class="fas fa-laptop"></i>
+                Electronics
+            </div>
+        </div>
+
+        <div class="banner-section">
+            <div class="banner-info">
+                <div class="realme-logo">
+                    <h2>realme</h2>
+                    <span class="flipkart-unique">Flipkart <span style="font-weight: bold;">Unique</span></span>
+                </div>
+                <h1><span class="p4-lite">P4 Lite 5G</span></h1>
+                <h1 class="from-price">From <span style="font-weight: bold;">₹12,999</span></h1>
+                <div class="segment-only">Segment's only 7000mAh battery*</div>
+                <div class="years-badge">6 Years <span style="font-weight:normal;">/ 4 Years</span> <i class="fas fa-shield-alt"></i></div>
+            </div>
+            <span class="ad-badge">AD</span>
+            <img src="https://api.imagery.ai/get-image?prompt=a%20mint%20green%20and%20sky%20blue%20shaded%20modern%20realme%20smartphone%20back%20panel%20diagonal%20view%20with%20camera%20rings,%20app-like%20placeholder,%20minimalist%20product%20photography%20look&aspect_ratio=4:3" alt="Realme Phone" class="banner-phone-image">
+        </div>
+
+        <div class="recs-section">
+            <h2>Remeshwar, still looking for these?</h2>
+            <div class="recs-list">
+                <div class="rec-item">
+                    <div class="rec-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=pink%20silicone%20baby%20teethers%20vertical%20row%20shaped%20like%20fingers,%20minimalist%20product%20photo&aspect_ratio=1:1" alt="Teethers">
+                    </div>
+                    <div class="rec-title">Teethers</div>
+                </div>
+                <div class="rec-item">
+                    <div class="rec-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=electric%20mosquito%20killer%20lamp%20blue%20grid%20insects%20minimalist%20product%20photo&aspect_ratio=1:1" alt="Mosquito Killer">
+                    </div>
+                    <div class="rec-title">Mosquito Killers</div>
+                </div>
+                <div class="rec-item">
+                    <div class="rec-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=black%20car%20power%20inverter%20socket%20minimalist%20product%20photo%20on%20white%20background&aspect_ratio=1:1" alt="Car Mobile Charger">
+                    </div>
+                    <div class="rec-title">Car Mobile Ch...</div>
+                </div>
+                <div class="rec-item">
+                    <div class="rec-img-placeholder">
+                        <i class="fas fa-image" style="font-size:32px; color:#CCC"></i>
+                    </div>
+                    <div class="rec-title">More Items...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggested-section">
+            <div class="suggested-header">
+                <h2>Suggested For You</h2>
+                <div class="view-all-btn">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+            <div class="suggested-list">
+                <div class="suggested-item">
+                    <div class="suggested-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=a%20minimalist%20white%20retail%20box%20packaging%20for%20a%20product%20named%20%27EPIC%27,%20clean%20design,%20studio%20lighting&aspect_ratio=1:1" alt="EPIC product box">
+                    </div>
+                    <div class="rec-title" style="text-align:left; color:#212121; font-weight:500;">EPIC Box (White)</div>
+                </div>
+                <div class="suggested-item">
+                    <div class="suggested-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=two%20white%20retail%20boxes%20packaging%20for%20%27EPIC%27%20products,%20clean%20design&aspect_ratio=1:1" alt="EPIC product boxes">
+                    </div>
+                    <div class="rec-title" style="text-align:left; color:#212121; font-weight:500;">EPIC Combo</div>
+                </div>
+                <div class="suggested-item">
+                    <div class="suggested-img-placeholder">
+                        <img src="https://api.imagery.ai/get-image?prompt=a%20black%20retail%20box%20packaging%20for%20a%20product%20named%20%27MARFORCE%20COMBO%27,%20clean%20design&aspect_ratio=1:1" alt="Marforce Combo">
+                    </div>
+                    <div class="rec-title" style="text-align:left; color:#212121; font-weight:500;">Marforce Combo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <div class="footer-item active">
+                <i class="fas fa-home"></i>
+                Home
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-play-circle"></i>
+                Play
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-th-large"></i>
+                Categories
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-user"></i>
+                Account
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge">25</span>
+                Cart
+            </div>
+        </div>
+    </div>
+
+</body>
+  </html>
+  
