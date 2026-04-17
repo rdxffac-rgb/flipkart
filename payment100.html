@@ -1,0 +1,41 @@
+<div id="payment-box" style="max-width: 360px; margin: 20px auto; border: 2px solid #e0e0e0; border-radius: 20px; padding: 20px; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    
+    <div style="background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 10px; padding: 10px; margin-bottom: 20px;">
+        <p style="margin: 0; color: #2e7d32; font-size: 14px; font-weight: bold;">Complete Payment Within:</p>
+        <div id="timer" style="font-size: 24px; font-weight: bold; color: #2e7d32;">15:00</div>
+    </div>
+
+    <h2 style="color: #333; margin: 0 0 5px 0;">Checkout</h2>
+    <p style="color: #666; font-size: 14px; margin: 0 0 15px 0;">Amount: <b style="color: #000; font-size: 18px;">₹100</b></p>
+
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 20px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=Remeshwar.r@ptaxis%26pn=Remeshwar%26am=100%26cu=INR" alt="UPI QR" style="width: 180px; height: 180px;">
+        <p style="font-size: 12px; color: #888; margin-top: 10px;">Scan QR for Desktop</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="supermoney://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #000; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Super.money</a>
+        <a href="googlepay://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #4285F4; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Google Pay</a>
+        <a href="paytmmp://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #00BAF2; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Paytm</a>
+        <a href="phonepe://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #5f259f; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via PhonePe</a>
+    </div>
+</div>
+
+<script>
+    // 15 Minute Timer Logic
+    let time = 15 * 60; 
+    const timerElement = document.getElementById('timer');
+
+    setInterval(function() {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        timerElement.innerHTML = `${minutes}:${seconds}`;
+        if (time > 0) {
+            time--;
+        } else {
+            timerElement.innerHTML = "EXPIRED";
+            timerElement.style.color = "red";
+        }
+    }, 1000);
+</script>
