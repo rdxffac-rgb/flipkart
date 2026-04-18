@@ -3,117 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkart UI Clone</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>E-commerce UI</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #f1f3f6; color: #212121; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f1f3f6; }
 
-        /* Top Header */
-        .header { background: linear-gradient(to bottom, #74b9ff, #ffffff); padding: 10px; }
-        .top-tabs { display: flex; gap: 10px; margin-bottom: 10px; }
-        .tab { flex: 1; padding: 12px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
-        .tab-fk { background: #fee115; color: #2874f0; }
-        .tab-travel { background: #fff; color: #ff6161; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-
-        /* Address Bar */
-        .address-bar { display: flex; align-items: center; background: #fff; padding: 8px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; border: 1px solid #dbdbdb; }
-        .address-bar i { margin-right: 8px; color: #2874f0; }
+        /* Header Tabs */
+        .top-nav { display: flex; height: 50px; text-align: center; font-weight: bold; }
+        .tab-flip { background: #fee115; flex: 1; display: flex; align-items: center; justify-content: center; }
+        .tab-pay { background: #fff; flex: 1; display: flex; align-items: center; justify-content: center; color: #878787; border-bottom: 1px solid #ddd; }
 
         /* Search Bar */
-        .search-container { position: relative; margin-bottom: 15px; }
-        .search-bar { width: 100%; padding: 12px 40px; border-radius: 8px; border: 1px solid #dbdbdb; font-size: 14px; outline: none; }
-        .search-container .fa-search { position: absolute; left: 12px; top: 14px; color: #878787; }
-        .search-container .fa-camera { position: absolute; right: 12px; top: 14px; color: #878787; }
+        .search-container { background: #fff; padding: 10px; position: sticky; top: 0; z-index: 100; }
+        .search-box { 
+            display: flex; align-items: center; background: #f0f5ff; 
+            border: 1px solid #2874f0; border-radius: 8px; padding: 8px 15px;
+        }
+        .search-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 16px; margin-left: 10px; }
 
         /* Categories */
-        .categories { display: flex; overflow-x: auto; gap: 20px; padding: 10px 5px; white-space: nowrap; background: #fff; }
-        .cat-item { text-align: center; font-size: 12px; font-weight: 500; color: #666; }
-        .cat-item i { display: block; font-size: 20px; margin-bottom: 5px; color: #2874f0; }
-        .cat-active { color: #2874f0; border-bottom: 2px solid #2874f0; padding-bottom: 5px; }
+        .categories { display: flex; justify-content: space-around; background: #fff; padding: 15px 0; margin-bottom: 8px; }
+        .cat-item { text-align: center; font-size: 12px; color: #333; }
+        .cat-icon { width: 45px; height: 45px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto; }
 
-        /* Banner */
-        .banner { margin: 10px; border-radius: 12px; overflow: hidden; position: relative; }
-        .banner img { width: 100%; display: block; }
+        /* Main Banner (f1.jpg) */
+        .main-banner { width: 100%; padding: 5px; background: #fff; }
+        .main-banner img { width: 100%; border-radius: 8px; display: block; }
 
-        /* Recommendation Section */
-        .rec-section { background: #fff; margin: 10px; padding: 15px; border-radius: 12px; }
-        .rec-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
-        .rec-grid { display: flex; gap: 10px; overflow-x: auto; }
-        .rec-item { min-width: 100px; text-align: center; background: #f9f9f9; padding: 10px; border-radius: 8px; }
-        .rec-item img { width: 80px; height: 80px; object-fit: contain; }
-        .rec-item p { font-size: 11px; margin-top: 5px; color: #444; }
+        /* Horizontal Scroll (f2, f3, f4) */
+        .horizontal-scroll { 
+            display: flex; overflow-x: auto; background: #fff; padding: 15px 10px; 
+            gap: 15px; scrollbar-width: none; 
+        }
+        .scroll-item { min-width: 110px; text-align: center; }
+        .scroll-item img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; background: #f9f9f9; }
+        .scroll-item p { font-size: 12px; margin-top: 8px; color: #444; }
 
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #dbdbdb; }
-        .nav-item { text-align: center; font-size: 10px; color: #666; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
-        .nav-active { color: #2874f0; }
+        /* Grid Section (f5, f6, f7) */
+        .grid-container { 
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; 
+            padding: 10px; background: #fff; margin-top: 8px;
+        }
+        .grid-item { text-align: center; }
+        .grid-item img { width: 100%; border-radius: 5px; aspect-ratio: 1/1.2; object-fit: cover; }
+        .grid-item span { font-size: 11px; font-weight: bold; display: block; margin-top: 5px; color: #212121; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="top-tabs">
-            <div class="tab tab-fk"><i class="fa-solid fa-bolt"></i> &nbsp; Flipkart</div>
-            <div class="tab tab-travel"><i class="fa-solid fa-plane"></i> &nbsp; Travel</div>
-        </div>
+    <div class="top-nav">
+        <div class="tab-flip">Flipkert</div>
+        <div class="tab-pay">Pay Later ⚡</div>
+    </div>
 
-        <div class="address-bar">
-            <i class="fa-solid fa-location-dot"></i>
-            <span>Jaitsar, 3jsd, Jaitsar Railway Station...</span>
-            <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 10px;"></i>
-        </div>
-
-        <div class="search-container">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" class="search-bar" placeholder="Search for products">
-            <i class="fa-solid fa-camera"></i>
+    <div class="search-container">
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Search for watches, brands and more">
+            <span>📷</span>
         </div>
     </div>
 
     <div class="categories">
-        <div class="cat-item cat-active"><i class="fa-solid fa-box-open"></i>For You</div>
-        <div class="cat-item"><i class="fa-solid fa-shirt"></i>Fashion</div>
-        <div class="cat-item"><i class="fa-solid fa-mobile-screen"></i>Mobiles</div>
-        <div class="cat-item"><i class="fa-solid fa-wand-magic-sparkles"></i>Beauty</div>
-        <div class="cat-item"><i class="fa-solid fa-laptop"></i>Electronics</div>
+        <div class="cat-item"><img src="mobile_icon.png" class="cat-icon">Mobiles</div>
+        <div class="cat-item"><img src="beauty_icon.png" class="cat-icon">Beauty</div>
+        <div class="cat-item"><img src="electronics_icon.png" class="cat-icon">Electronics</div>
     </div>
 
-    <div class="banner">
-        <div style="background:#000; color:#fff; padding: 40px 20px; border-radius: 12px;">
-            <h2 style="font-size: 18px;">T5 Pro 5G | From ₹4,667/M*</h2>
-            <p style="font-size: 12px; color: #ccc;">Sale on 21st Apr, 12 PM</p>
-            <span style="background:#fff; color:#000; padding:2px 5px; font-size:10px; margin-top:10px; display:inline-block;">AD</span>
+    <div class="main-banner">
+        <img src="f1.jpg" alt="Special Offer Banner">
+    </div>
+
+    <div class="horizontal-scroll">
+        <div class="scroll-item">
+            <img src="f2.jpg" alt="Teethers">
+            <p>Teethers</p>
         </div>
-    </div>
-
-    <div class="rec-section">
-        <div class="rec-title">Remeshwar, still looking for these?</div>
-        <div class="rec-grid">
-            <div class="rec-item">
-                <img src="https://via.placeholder.com/80/f8bbd0/ffffff?text=Teethers" alt="Teethers">
-                <p>Teethers</p>
-            </div>
-            <div class="rec-item">
-                <img src="https://via.placeholder.com/80/bbdefb/000000?text=Killer" alt="Mosquito Killers">
-                <p>Mosquito Killers</p>
-            </div>
-            <div class="rec-item">
-                <img src="https://via.placeholder.com/80/cfd8dc/000000?text=Charger" alt="Car Charger">
-                <p>Car Mobile Ch...</p>
-            </div>
+        <div class="scroll-item">
+            <img src="f3.jpg" alt="Mosquito Killers">
+            <p>Mosquito Killers</p>
         </div>
-    </div>
+        <div class="scroll-item">
+            <img src="f4.jpg" alt="Car Charger">
+            <p>Car Mobile Ch...</p>
+        </div>
+        </div>
 
-    <div style="height: 70px;"></div> <div class="bottom-nav">
-        <div class="nav-item nav-active"><i class="fa-solid fa-house"></i>Home</div>
-        <div class="nav-item"><i class="fa-solid fa-circle-play"></i>Play</div>
-        <div class="nav-item"><i class="fa-solid fa-border-all"></i>Categories</div>
-        <div class="nav-item"><i class="fa-solid fa-user"></i>Account</div>
-        <div class="nav-item" style="position: relative;">
-            <i class="fa-solid fa-cart-shopping"></i>Cart
-            <span style="position:absolute; top:-5px; right:5px; background:red; color:#fff; border-radius:50%; padding:2px 5px; font-size:9px;">25</span>
+    <div class="grid-container">
+        <div class="grid-item">
+            <img src="f5.jpg" alt="Offer 1">
+            <span>Spl. price ₹1,199</span>
+        </div>
+        <div class="grid-item">
+            <img src="f6.jpg" alt="Offer 2">
+            <span>Up to 50% Off</span>
+        </div>
+        <div class="grid-item">
+            <img src="f7.jpg" alt="Offer 3">
+            <span>Min. 70% Off</span>
         </div>
     </div>
 
