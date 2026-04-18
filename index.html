@@ -1,128 +1,32 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkart Clone UI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Flipkert - Online Shopping</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f1f3f6; }
-        .header { background-color: #2874f0; padding: 10px; color: white; }
-        
-        /* Travel Section */
-        .top-nav { display: flex; gap: 10px; margin-bottom: 10px; }
-        .top-btn { flex: 1; background: white; color: #2874f0; padding: 8px; text-align: center; border-radius: 4px; font-weight: bold; }
-        .top-btn.active { background: #ffe11b; color: black; }
-
-        /* Location Section */
-        .location-bar { background: #fff; padding: 10px; display: flex; align-items: center; border-bottom: 1px solid #ddd; font-size: 14px; }
-        .add-location { color: #2874f0; font-weight: bold; cursor: pointer; margin-left: 5px; }
-
-        /* Search Bar */
-        .search-container { padding: 10px; background: #fff; position: sticky; top: 0; }
-        .search-box { display: flex; align-items: center; background: #f0f5ff; border-radius: 8px; padding: 8px 15px; }
-        .search-box input { border: none; background: transparent; width: 100%; outline: none; margin-left: 10px; }
-
-        /* Categories (Only 3 options) */
-        .categories { display: flex; background: #fff; padding: 10px 0; justify-content: space-around; text-align: center; font-size: 13px; }
-        .cat-item img { width: 45px; height: 45px; display: block; margin: 0 auto 5px; }
-
-        /* Main Slider (Single Image) */
-        .main-banner { width: 100%; margin-top: 5px; }
-        .main-banner img { width: 100%; display: block; }
-
-        /* Personalization Section */
-        .user-section { padding: 15px; background: #fff; margin-top: 10px; }
-        .user-greeting { font-size: 16px; font-weight: bold; color: #333; }
-
-        /* Horizontal Scroll (3 Photos) */
-        .scroll-section { display: flex; gap: 10px; padding: 10px; overflow-x: auto; background: #fff; }
-        .scroll-item { min-width: 30%; border: 1px solid #eee; border-radius: 8px; }
-        .scroll-item img { width: 100%; border-radius: 8px; }
-
-        /* Ads Section (3 Images) */
-        .ads-container { display: flex; flex-wrap: wrap; gap: 5px; padding: 10px; }
-        .ad-box { flex: 1; min-width: 30%; }
-        .ad-box img { width: 100%; border-radius: 5px; }
-
-        /* Bottom Nav (3 Options) */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; }
-        .nav-item { text-align: center; color: #666; font-size: 12px; text-decoration: none; }
-        .nav-item i { font-size: 20px; display: block; }
+        .header { background-color: #2874f0; color: white; padding: 10px 50px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 24px; font-weight: bold; font-style: italic; }
+        .search-bar { width: 40%; padding: 8px; border-radius: 2px; border: none; }
+        .pay-later-btn { background-color: #fb641b; color: white; padding: 8px 15px; border: none; font-weight: bold; cursor: pointer; border-radius: 2px; }
+        .main-content { text-align: center; padding: 50px; }
+        .login-btn { background: white; color: #2874f0; padding: 10px 40px; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="top-nav">
-            <div class="top-btn active">Flipkart</div>
-            <div class="top-btn">Travel</div>
-        </div>
+        <div class="logo">Flipkert</div>
+        <input type="text" class="search-bar" placeholder="Search for products, brands and more">
+        <button class="pay-later-btn">Pay Later</button>
+        <button class="login-btn">Login</button>
     </div>
 
-    <div class="location-bar">
-        <i class="fas fa-map-marker-alt" style="color: #666;"></i>
-        <span style="margin-left: 8px;">Delivery to - </span>
-        <span class="add-location">Add Location +</span>
+    <div class="main-content">
+        <h2>Welcome to Flipkert</h2>
+        <p>Login to see trending items at cheapest prices!</p>
     </div>
-
-    <div class="search-container">
-        <div class="search-box">
-            <i class="fas fa-search" style="color: #666;"></i>
-            <input type="text" placeholder="Search for products, brands and more">
-            <i class="fas fa-camera" style="color: #666;"></i>
-        </div>
-    </div>
-
-    <div class="categories">
-        <div class="cat-item">Mobiles</div>
-        <div class="cat-item">Electronics</div>
-        <div class="cat-item">Toys</div>
-    </div>
-
-    <div class="main-banner">
-        <img src="f1.jpg" alt="Banner Image">
-    </div>
-
-    <div class="user-section">
-        <div class="user-greeting">
-            <span id="username-display">User</span>, still looking for these?
-        </div>
-    </div>
-
-    <div class="scroll-section">
-        <div class="scroll-item"><img src="f2.jpg" alt="Product"></div>
-        <div class="scroll-item"><img src="f3.jpg" alt="Product"></div>
-        <div class="scroll-item"><img src="f4.jpg" alt="Product"></div>
-    </div>
-
-    <div class="ads-container">
-        <div class="ad-box"><img src="f5.jpg" alt="Ad"></div>
-        <div class="ad-box"><img src="f6.jpg" alt="Ad"></div>
-        <div class="ad-box"><img src="f7.jpg" alt="Ad"></div>
-    </div>
-
-    <div class="bottom-nav">
-        <a href="#" class="nav-item">
-            <i class="fas fa-home"></i>
-            Home
-        </a>
-        <a href="#" class="nav-item">
-            <i class="far fa-user-circle"></i>
-            Account
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-shopping-cart"></i>
-            Cart
-        </a>
-    </div>
-
-    <script>
-        // User login name dynamic karne ke liye script
-        // Maan lijiye 'Rameshwar' variable user data se aata hai
-        let loggedInUser = "Rameshwar"; 
-        document.getElementById("username-display").innerText = loggedInUser;
-    </script>
 
 </body>
 </html>
