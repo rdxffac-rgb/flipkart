@@ -3,136 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkert - Online Shopping</title>
+    <title>Flipkert</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #f1f3f6; overflow-x: hidden; }
-        .header { background: #2874f0; color: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .pay-later { background: #ff9f00; padding: 5px 10px; border-radius: 2px; font-weight: bold; font-size: 12px; }
+        body { font-family: Roboto, Arial, sans-serif; margin: 0; background-color: #f1f3f6; color: #212121; }
         
-        /* Product Design */
-        .product-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
-        .product-card { background: white; padding: 10px; border-radius: 2px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; height: 140px; object-fit: contain; }
-        .price { color: #212121; font-weight: bold; font-size: 16px; margin: 5px 0; }
-        .old-price { text-decoration: line-through; color: #878787; font-size: 12px; margin-left: 5px; }
-        .buy-btn { background: #fb641b; color: white; border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 2px; cursor: pointer; }
+        /* Premium Header Like Screenshot */
+        .top-nav { background: linear-gradient(#f8e831, #f8e831); padding: 10px; display: flex; align-items: center; justify-content: space-between; }
+        .tab-box { display: flex; width: 100%; background: white; border-radius: 8px; overflow: hidden; margin-bottom: 8px; border: 1px solid #ddd; }
+        .tab { flex: 1; text-align: center; padding: 10px; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .tab.active { background: #ffe100; border-right: 1px solid #ddd; }
+        .tab.travel { background: white; color: #666; }
 
-        /* Login & Checkout Overlays */
-        #loginOverlay, #checkoutPage { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; padding: 15px; box-sizing: border-box; display: block; overflow-y: auto; }
-        #checkoutPage { display: none; background: #f1f3f6; }
+        /* Search Bar Area */
+        .search-container { background: white; padding: 10px; display: flex; align-items: center; border-radius: 8px; margin: 0 10px; border: 1px solid #dbdbdb; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .search-container input { border: none; outline: none; flex: 1; padding: 5px 10px; font-size: 14px; }
+
+        /* Category Icons */
+        .categories { display: flex; overflow-x: auto; background: white; padding: 15px 5px; margin-bottom: 8px; }
+        .cat-item { min-width: 70px; text-align: center; font-size: 12px; font-weight: 500; }
+        .cat-item img { width: 45px; height: 45px; margin-bottom: 5px; }
+
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
+        .p-card { background: white; border-radius: 8px; overflow: hidden; padding: 10px; position: relative; border: 1px solid #e0e0e0; }
+        .p-card img { width: 100%; height: 130px; object-fit: contain; }
+        .p-title { font-size: 13px; color: #333; height: 35px; overflow: hidden; margin: 8px 0; }
+        .p-price { font-weight: bold; font-size: 16px; }
+        .p-old-price { text-decoration: line-through; color: #878787; font-size: 12px; margin-left: 5px; }
+        .buy-now-btn { background: #fb641b; color: white; border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 4px; margin-top: 8px; cursor: pointer; }
         
-        .card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        
-        /* Payment Styles */
-        .payment-option { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
-        .disabled-cod { color: #878787; font-size: 14px; display: flex; flex-direction: column; }
-        .not-available { color: #d32f2f; font-size: 11px; font-weight: bold; }
+        /* Overlays same as before but styled better */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; padding: 20px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-<div id="loginOverlay">
-    <h2 style="color:#2874f0; margin-bottom:5px;">Flipkert</h2>
-    <p style="font-size:14px; color:#666;">Sign in to join the biggest sale!</p>
-    <input type="text" id="userName" placeholder="Full Name">
-    <textarea id="userAddress" placeholder="Full Address (House No, Building, Area, Pincode)" style="width:100%; height:80px; border:1px solid #ccc; padding:10px; border-radius:4px; box-sizing:border-box;"></textarea>
-    <button onclick="getLocation()" style="background:#fff; border:1px solid #2874f0; color:#2874f0; padding:10px; width:100%; margin-top:5px; border-radius:4px;">📍 Use My Current Location</button>
-    <input type="number" id="mobileNumber" placeholder="Enter Mobile Number">
-    <button onclick="saveAndContinue()" style="background:#fb641b; color:white; border:none; padding:15px; width:100%; font-weight:bold; margin-top:20px; border-radius:2px;">CONTINUE</button>
+<div style="background: linear-gradient(to bottom, #d6e9ff, #f1f3f6);">
+    <div class="top-nav">
+        <div class="tab-box">
+            <div class="tab active"><img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/logo_lite-cbb357.png" width="20" style="margin-right:5px"> Flipkert</div>
+            <div class="tab travel">Pay Later ⚡</div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <i class="fas fa-search" style="color:#999"></i>
+        <input type="text" placeholder="Search for products">
+        <i class="fas fa-camera" style="color:#999"></i>
+    </div>
+
+    <div class="categories">
+        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png"><div>For You</div></div>
+        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png"><div>Fashion</div></div>
+        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png"><div>Mobiles</div></div>
+        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/ee15728b61593a13.png"><div>Electronics</div></div>
+        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/0ff199d1bd27eb98.png"><div>Appliances</div></div>
+    </div>
 </div>
 
-<div class="header">
-    <div style="font-style:italic; font-weight:bold; font-size:20px;">Flipkert</div>
-    <div class="pay-later">Pay Later ⚡</div>
+<div style="padding: 0 8px;">
+    <img src="https://rukminim2.flixcart.com/fk-p-flap/1600/270/image/352e6a0f0316af30.jpg" style="width:100%; border-radius:8px;">
 </div>
 
-<div class="product-container">
-    <div class="product-card">
+<div class="product-grid">
+    <div class="p-card">
         <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/n/m/f/g34-5g-pb1v0002in-motorola-original-imagwu4rayun8ue6.jpeg">
-        <div style="font-size:13px; height:32px; overflow:hidden;">Motorola G34 5G (8GB RAM)</div>
-        <div class="price">₹499 <span class="old-price">₹14,999</span></div>
-        <button class="buy-btn" onclick="openCheckout('Motorola G34 5G', '499')">BUY NOW</button>
+        <div class="p-title">Motorola G34 5G (Ocean Green, 128 GB)</div>
+        <div class="p-price">₹499 <span class="p-old-price">₹14,999</span></div>
+        <button class="buy-now-btn">BUY NOW</button>
     </div>
-    <div class="product-card">
+    <div class="p-card">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/5/v/s/-original-imagxp8vfy7r4y7h.jpeg">
-        <div style="font-size:13px; height:32px; overflow:hidden;">Smart Watch S9 Ultra Max</div>
-        <div class="price">₹199 <span class="old-price">₹3,999</span></div>
-        <button class="buy-btn" onclick="openCheckout('Smart Watch S9', '199')">BUY NOW</button>
+        <div class="p-title">S9 Ultra Smartwatch with Heart Rate</div>
+        <div class="p-price">₹199 <span class="p-old-price">₹3,999</span></div>
+        <button class="buy-now-btn">BUY NOW</button>
     </div>
 </div>
-
-<div id="checkoutPage">
-    <div style="background:#2874f0; color:white; padding:15px; font-weight:bold;">Order Summary</div>
-    
-    <div class="card">
-        <div style="font-weight:bold; font-size:14px; margin-bottom:5px;">Delivery to:</div>
-        <div id="dispName" style="font-weight:bold;"></div>
-        <div id="dispAddress" style="font-size:13px; color:#555;"></div>
-        <div id="dispPhone" style="font-size:13px;"></div>
-    </div>
-
-    <div class="card">
-        <div style="font-weight:bold; margin-bottom:10px;">Select Payment Method</div>
-        
-        <div class="payment-option">
-            <input type="radio" name="pay" disabled>
-            <div class="disabled-cod">
-                <span>Cash on Delivery</span>
-                <span class="not-available">NOT AVAILABLE FOR THIS ORDER</span>
-            </div>
-        </div>
-        
-        <div class="payment-option">
-            <input type="radio" name="pay" checked>
-            <div style="font-size:14px; margin-left:10px;">PhonePe / Google Pay / UPI</div>
-        </div>
-
-        <div class="payment-option">
-            <input type="radio" name="pay">
-            <div style="font-size:14px; margin-left:10px;">EMI (Easy Installments)</div>
-        </div>
-    </div>
-
-    <button onclick="confirmOrder()" style="background:#fb641b; color:white; border:none; padding:15px; width:100%; font-weight:bold; position:fixed; bottom:0; left:0;">CONTINUE TO PAYMENT</button>
-</div>
-
-<script>
-    let userDetails = {};
-    let selectedProduct = "";
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((p) => {
-                document.getElementById("userAddress").value = "Verified Location: Lat " + p.coords.latitude.toFixed(2) + ", Long " + p.coords.longitude.toFixed(2);
-            });
-        }
-    }
-
-    function saveAndContinue() {
-        userDetails.name = document.getElementById("userName").value;
-        userDetails.address = document.getElementById("userAddress").value;
-        userDetails.phone = document.getElementById("mobileNumber").value;
-
-        if(!userDetails.name || !userDetails.address || !userDetails.phone) {
-            alert("Sabhi details bharna zaroori hai!"); return;
-        }
-        document.getElementById("loginOverlay").style.display = "none";
-    }
-
-    function openCheckout(name, price) {
-        selectedProduct = name;
-        document.getElementById("dispName").innerText = userDetails.name;
-        document.getElementById("dispAddress").innerText = userDetails.address;
-        document.getElementById("dispPhone").innerText = "+91 " + userDetails.phone;
-        document.getElementById("checkoutPage").style.display = "block";
-    }
-
-    function confirmOrder() {
-        alert("Redirecting to Secure Payment Gateway...");
-        // Yahan aap apna UPI link ya QR code page daal sakte hain
-    }
-</script>
 
 </body>
 </html>
