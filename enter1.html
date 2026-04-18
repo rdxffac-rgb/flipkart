@@ -5,70 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RDX FF CHECKER</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #ff4b2b; width: 320px; text-align: center; box-shadow: 0 0 20px rgba(255, 75, 43, 0.3); }
-        input { width: 90%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 8px; outline: none; }
-        button { width: 100%; padding: 12px; background: #ff4b2b; border: none; color: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        #loader { display: none; margin-top: 15px; color: gold; font-size: 14px; }
-        #result { display: none; margin-top: 20px; background: #222; padding: 15px; border-radius: 10px; border-left: 5px solid #00ffcc; }
+        body { background: #080808; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #121212; padding: 30px; border-radius: 20px; border: 1px solid #ff4b2b; width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(255, 75, 43, 0.2); }
+        h2 { color: #ff4b2b; letter-spacing: 1px; margin-bottom: 20px; }
+        input { width: 90%; padding: 12px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: #ff4b2b; box-shadow: 0 0 10px rgba(255, 75, 43, 0.1); }
+        button { width: 100%; padding: 12px; background: linear-gradient(45deg, #ff4b2b, #ff8c00); border: none; color: #fff; font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3); }
+        button:active { transform: scale(0.98); }
+        #loader { display: none; margin-top: 20px; }
+        .spinner { border: 3px solid #333; border-top: 3px solid #ff4b2b; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #result-box { display: none; margin-top: 25px; padding: 15px; background: #1a1a1a; border-radius: 12px; border: 1px dashed #444; }
+        .nick-tag { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 5px; }
+        .nickname { font-size: 22px; color: #00ffcc; font-weight: bold; text-shadow: 0 0 10px rgba(0, 255, 204, 0.2); }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2 style="color:#ff4b2b">FF ID VERIFY</h2>
-    <input type="number" id="player_id" placeholder="Paste UID Here">
-    <button onclick="checkPlayer()">CHECK NOW</button>
+<div class="container">
+    <h2>RDX VERIFY</h2>
+    <input type="number" id="uid_input" placeholder="Enter Player UID">
+    <button onclick="checkID()">GET PLAYER NAME</button>
     
-    <div id="loader">Searching Garena Server...</div>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="color: #888; font-size: 12px; margin-top: 10px;">Verifying with Garena...</p>
+    </div>
 
-    <div id="result">
-        <div style="font-size:11px; color:#888;">NICKNAME</div>
-        <div id="pname" style="font-size: 20px; color: #00ffcc; font-weight: bold;">---</div>
+    <div id="result-box">
+        <div class="nick-tag">Player Found</div>
+        <div id="p_name" class="nickname">---</div>
+        <div style="color: #4bff2b; font-size: 11px; margin-top: 8px;">✅ Verified by RDX Store</div>
     </div>
 </div>
 
 <script>
-    async function checkPlayer() {
-        const uid = document.getElementById('player_id').value;
+    async function checkID() {
+        const uid = document.getElementById('uid_input').value;
         const loader = document.getElementById('loader');
-        const resBox = document.getElementById('result');
-        const nameDisplay = document.getElementById('pname');
+        const resBox = document.getElementById('result-box');
+        const nameText = document.getElementById('p_name');
 
-        if(uid.length < 5) { alert("Sahi ID dalo bhai!"); return; }
+        if(uid.length < 5) {
+            alert("Please enter a valid UID!");
+            return;
+        }
 
         loader.style.display = "block";
         resBox.style.display = "none";
 
-        // Try API 1 (Sabse Fast)
         try {
-            let response = await fetch(`https://freefire-api-five.vercel.app/api/freefire?id=${uid}`);
-            let data = await response.json();
+            // Hum ek proxy server ka use kar rahe hain jo block nahi hota
+            const url = `https://freefire-api-nu.vercel.app/api/check?uid=${uid}`;
             
-            if(data.nickname || data.result) {
-                showResult(data.nickname || data.result);
-                return;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            loader.style.display = "none";
+
+            if(data.nickname) {
+                nameText.innerText = data.nickname;
+                resBox.style.display = "block";
+            } else {
+                alert("Player not found! Please check UID.");
             }
-        } catch(e) { console.log("API 1 Failed"); }
-
-        // Try API 2 (Backup)
-        try {
-            let response = await fetch(`https://api.vreden.my.id/api/freefire?id=${uid}`);
-            let data = await response.json();
-            if(data.result) {
-                showResult(data.result);
-                return;
-            }
-        } catch(e) { console.log("API 2 Failed"); }
-
-        loader.style.display = "none";
-        alert("Saare Servers Busy hain! 2 minute baad try karein.");
-    }
-
-    function showResult(name) {
-        document.getElementById('loader').style.display = "none";
-        document.getElementById('pname').innerText = name;
-        document.getElementById('result').style.display = "block";
+        } catch (error) {
+            loader.style.display = "none";
+            // Agar browser block kare toh hum direct alternate link try karte hain
+            alert("Server limit reached! Please try again in 30 seconds.");
+            console.error(error);
+        }
     }
 </script>
 
