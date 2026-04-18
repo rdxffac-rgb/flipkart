@@ -3,30 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkert - Online Shopping</title>
+    <title>Flipkert - Login</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f1f3f6; }
-        .header { background-color: #2874f0; color: white; padding: 10px 50px; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 24px; font-weight: bold; font-style: italic; }
-        .search-bar { width: 40%; padding: 8px; border-radius: 2px; border: none; }
-        .pay-later-btn { background-color: #fb641b; color: white; padding: 8px 15px; border: none; font-weight: bold; cursor: pointer; border-radius: 2px; }
-        .main-content { text-align: center; padding: 50px; }
-        .login-btn { background: white; color: #2874f0; padding: 10px 40px; border: none; font-weight: bold; cursor: pointer; }
+        /* Full screen overlay for login */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+        .login-box { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 8px; position: relative; }
+        .header-blue { background: #2874f0; color: white; padding: 15px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; font-weight: bold; }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-blue { background: #2874f0; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-location { background: #fb641b; color: white; border: none; font-weight: bold; cursor: pointer; }
+        #otpSection { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="logo">Flipkert</div>
-        <input type="text" class="search-bar" placeholder="Search for products, brands and more">
-        <button class="pay-later-btn">Pay Later</button>
-        <button class="login-btn">Login</button>
-    </div>
+<div id="loginOverlay">
+    <div class="login-box">
+        <div class="header-blue">Login / Sign up on Flipkert</div>
+        
+        <div id="addressSection">
+            <input type="text" id="userName" placeholder="Full Name">
+            <textarea id="userAddress" placeholder="Full Address (House No, Street, City)" style="width:100%; height:80px; border:1px solid #ccc;"></textarea>
+            
+            <button class="btn-location" onclick="getLocation()">📍 Auto-fill using Location</button>
+            <input type="number" id="mobileNumber" placeholder="Enter Mobile Number">
+            <button class="btn-blue" onclick="showOTP()">Continue</button>
+        </div>
 
-    <div class="main-content">
-        <h2>Welcome to Flipkert</h2>
-        <p>Login to see trending items at cheapest prices!</p>
+        <div id="otpSection">
+            <p>An OTP has been sent to your mobile number.</p>
+            <input type="number" placeholder="Enter 6-digit OTP">
+            <button class="btn-blue" onclick="finishLogin()">Verify & Login</button>
+        </div>
     </div>
+</div>
+
+<script>
+    // Location nikalne ka function
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        // Asli project mein yahan Maps API lagti hai, abhi hum dummy dikha rahe hain
+        document.getElementById("userAddress").value = "Fetching address from Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude + "... (Location Verified)";
+    }
+
+    function showOTP() {
+        if(document.getElementById("mobileNumber").value == "") {
+            alert("Please enter mobile number");
+        } else {
+            document.getElementById("addressSection").style.display = "none";
+            document.getElementById("otpSection").style.display = "block";
+        }
+    }
+
+    function finishLogin() {
+        alert("Login Successful! Now you can see trending items.");
+        document.getElementById("loginOverlay").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
