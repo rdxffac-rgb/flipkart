@@ -3,61 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RDX FF VERIFY</title>
+    <title>RDX FF CHECKER</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .box { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #ff4b2b; display: inline-block; width: 300px; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #111; padding: 30px; border-radius: 15px; border: 1px solid #ff4b2b; width: 320px; text-align: center; box-shadow: 0 0 20px rgba(255, 75, 43, 0.3); }
         input { width: 90%; padding: 12px; margin: 15px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 8px; outline: none; }
         button { width: 100%; padding: 12px; background: #ff4b2b; border: none; color: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        #loader { display: none; margin-top: 15px; color: #ffeb3b; }
-        #res { display: none; margin-top: 20px; background: #222; padding: 15px; border-radius: 10px; border-bottom: 3px solid #00ffcc; }
-        .nick { font-size: 20px; color: #00ffcc; font-weight: bold; }
+        #loader { display: none; margin-top: 15px; color: gold; font-size: 14px; }
+        #result { display: none; margin-top: 20px; background: #222; padding: 15px; border-radius: 10px; border-left: 5px solid #00ffcc; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h2 style="color:#ff4b2b">RDX ID CHECKER</h2>
-    <input type="number" id="uid" placeholder="Enter Player UID">
-    <button onclick="checkID()">CHECK NAME</button>
+<div class="card">
+    <h2 style="color:#ff4b2b">FF ID VERIFY</h2>
+    <input type="number" id="player_id" placeholder="Paste UID Here">
+    <button onclick="checkPlayer()">CHECK NOW</button>
     
-    <div id="loader">Checking Garena Server...</div>
+    <div id="loader">Searching Garena Server...</div>
 
-    <div id="res">
-        <div style="font-size:11px; color:#888;">PLAYER NAME</div>
-        <div id="pname" class="nick">---</div>
+    <div id="result">
+        <div style="font-size:11px; color:#888;">NICKNAME</div>
+        <div id="pname" style="font-size: 20px; color: #00ffcc; font-weight: bold;">---</div>
     </div>
 </div>
 
 <script>
-    async function checkID() {
-        const id = document.getElementById('uid').value;
+    async function checkPlayer() {
+        const uid = document.getElementById('player_id').value;
         const loader = document.getElementById('loader');
-        const resDiv = document.getElementById('res');
-        const nameDiv = document.getElementById('pname');
+        const resBox = document.getElementById('result');
+        const nameDisplay = document.getElementById('pname');
 
-        if(id.length < 5) { alert("Sahi UID dalo!"); return; }
+        if(uid.length < 5) { alert("Sahi ID dalo bhai!"); return; }
 
         loader.style.display = "block";
-        resDiv.style.display = "none";
+        resBox.style.display = "none";
 
+        // Try API 1 (Sabse Fast)
         try {
-            // Naya Stable API Link
-            const response = await fetch(`https://freefire-api-five.vercel.app/api/freefire?id=${id}`);
-            const data = await response.json();
-
-            loader.style.display = "none";
-
+            let response = await fetch(`https://freefire-api-five.vercel.app/api/freefire?id=${uid}`);
+            let data = await response.json();
+            
             if(data.nickname || data.result) {
-                nameDiv.innerText = data.nickname || data.result;
-                resDiv.style.display = "block";
-            } else {
-                alert("ID nahi mili ya API limit khatam ho gayi.");
+                showResult(data.nickname || data.result);
+                return;
             }
-        } catch(e) {
-            loader.style.display = "none";
-            alert("Network Error! Ek baar Airplane mode on-off karke try karein.");
-        }
+        } catch(e) { console.log("API 1 Failed"); }
+
+        // Try API 2 (Backup)
+        try {
+            let response = await fetch(`https://api.vreden.my.id/api/freefire?id=${uid}`);
+            let data = await response.json();
+            if(data.result) {
+                showResult(data.result);
+                return;
+            }
+        } catch(e) { console.log("API 2 Failed"); }
+
+        loader.style.display = "none";
+        alert("Saare Servers Busy hain! 2 minute baad try karein.");
+    }
+
+    function showResult(name) {
+        document.getElementById('loader').style.display = "none";
+        document.getElementById('pname').innerText = name;
+        document.getElementById('result').style.display = "block";
     }
 </script>
 
