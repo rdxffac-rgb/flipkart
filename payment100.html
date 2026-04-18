@@ -1,41 +1,70 @@
-<div id="payment-box" style="max-width: 360px; margin: 20px auto; border: 2px solid #e0e0e0; border-radius: 20px; padding: 20px; text-align: center; font-family: 'Segoe UI', Arial, sans-serif; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-    
-    <div style="background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 10px; padding: 10px; margin-bottom: 20px;">
-        <p style="margin: 0; color: #2e7d32; font-size: 14px; font-weight: bold;">Complete Payment Within:</p>
-        <div id="timer" style="font-size: 24px; font-weight: bold; color: #2e7d32;">15:00</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF ID Checker - RDX STORE</title>
+    <style>
+        body { background-color: #121212; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .container { background: #1f1f1f; padding: 20px; border-radius: 10px; display: inline-block; width: 90%; max-width: 400px; box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+        input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; outline: none; }
+        button { padding: 10px 20px; background: #ff4b2b; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 20px; padding: 10px; border-top: 1px solid #333; display: none; }
+        .loading { color: yellow; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Verify Player ID</h2>
+        <input type="number" id="player_id" placeholder="Enter Free Fire UID...">
+        <br>
+        <button onclick="checkID()">Check Name</button>
+
+        <div id="loader" class="loading">Searching player...</div>
+
+        <div id="result">
+            <p style="color: #aaa;">Player Name:</p>
+            <h3 id="player_name" style="color: #4bff2b;">---</h3>
+        </div>
     </div>
 
-    <h2 style="color: #333; margin: 0 0 5px 0;">Checkout</h2>
-    <p style="color: #666; font-size: 14px; margin: 0 0 15px 0;">Amount: <b style="color: #000; font-size: 18px;">₹100</b></p>
+    <script>
+        function checkID() {
+            const uid = document.getElementById('player_id').value;
+            const resultDiv = document.getElementById('result');
+            const nameH3 = document.getElementById('player_name');
+            const loader = document.getElementById('loader');
 
-    <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 20px;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=Remeshwar.r@ptaxis%26pn=Remeshwar%26am=100%26cu=INR" alt="UPI QR" style="width: 180px; height: 180px;">
-        <p style="font-size: 12px; color: #888; margin-top: 10px;">Scan QR for Desktop</p>
-    </div>
+            if (uid.length < 5) {
+                alert("Please enter a valid UID");
+                return;
+            }
 
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a href="supermoney://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #000; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Super.money</a>
-        <a href="googlepay://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #4285F4; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Google Pay</a>
-        <a href="paytmmp://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #00BAF2; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via Paytm</a>
-        <a href="phonepe://pay?pa=Remeshwar.r@ptaxis&pn=Remeshwar&am=100&cu=INR" style="background: #5f259f; color: #fff; padding: 12px; text-decoration: none; border-radius: 10px; font-weight: bold;">Pay via PhonePe</a>
-    </div>
-</div>
+            // UI Updates
+            loader.style.display = "block";
+            resultDiv.style.display = "none";
 
-<script>
-    // 15 Minute Timer Logic
-    let time = 15 * 60; 
-    const timerElement = document.getElementById('timer');
-
-    setInterval(function() {
-        let minutes = Math.floor(time / 60);
-        let seconds = time % 60;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        timerElement.innerHTML = `${minutes}:${seconds}`;
-        if (time > 0) {
-            time--;
-        } else {
-            timerElement.innerHTML = "EXPIRED";
-            timerElement.style.color = "red";
+            // Free API (Ye kabhi kabhi limit hone par slow ho sakti hai)
+            // Hum ek public proxy use kar rahe hain takki data fetch ho sake
+            fetch(`https://freefire-api-by-rdx.vercel.app/api/check?uid=${uid}`)
+            .then(response => response.json())
+            .then(data => {
+                loader.style.display = "none";
+                if (data.nickname) {
+                    nameH3.innerText = data.nickname;
+                    resultDiv.style.display = "block";
+                } else {
+                    alert("ID Not Found or Server Busy!");
+                }
+            })
+            .catch(err => {
+                loader.style.display = "none";
+                alert("Error: Server not responding. Try again later.");
+                console.error(err);
+            });
         }
-    }, 1000);
-</script>
+    </script>
+
+</body>
+</html>
