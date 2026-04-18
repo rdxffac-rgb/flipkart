@@ -2,136 +2,120 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flipkert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart UI Clone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; background-color: #f1f3f6; padding-bottom: 60px; }
-        
-        /* Premium Gradient Header */
-        .top-bg { background: linear-gradient(to bottom, #d6e9ff 0%, #f1f3f6 100%); padding: 10px; }
-        
-        .tab-switcher { display: flex; background: white; border-radius: 10px; padding: 2px; margin-bottom: 12px; border: 1px solid #e0e0e0; }
-        .tab { flex: 1; text-align: center; padding: 8px; font-size: 14px; font-weight: bold; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .tab.active { background: #ffe100; color: #212121; }
-        .tab.pay-later { color: #666; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f1f3f6; color: #212121; }
 
-        /* Search Bar Exact Style */
-        .search-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .search-bar { flex: 1; background: white; border-radius: 8px; display: flex; align-items: center; padding: 8px 12px; border: 1px solid #dbdbdb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .search-bar input { border: none; outline: none; flex: 1; font-size: 14px; margin-left: 8px; color: #878787; }
+        /* Top Header */
+        .header { background: linear-gradient(to bottom, #74b9ff, #ffffff); padding: 10px; }
+        .top-tabs { display: flex; gap: 10px; margin-bottom: 10px; }
+        .tab { flex: 1; padding: 12px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+        .tab-fk { background: #fee115; color: #2874f0; }
+        .tab-travel { background: #fff; color: #ff6161; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        /* Categories Bar */
-        .cat-strip { display: flex; overflow-x: auto; gap: 20px; padding: 5px 0 15px 0; scrollbar-width: none; }
-        .cat-item { text-align: center; min-width: 60px; }
-        .cat-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-        .cat-item div { font-size: 11px; font-weight: 500; margin-top: 5px; color: #212121; }
+        /* Address Bar */
+        .address-bar { display: flex; align-items: center; background: #fff; padding: 8px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; border: 1px solid #dbdbdb; }
+        .address-bar i { margin-right: 8px; color: #2874f0; }
 
-        /* Banner Style */
-        .main-banner { width: 100%; border-radius: 12px; margin-bottom: 15px; }
+        /* Search Bar */
+        .search-container { position: relative; margin-bottom: 15px; }
+        .search-bar { width: 100%; padding: 12px 40px; border-radius: 8px; border: 1px solid #dbdbdb; font-size: 14px; outline: none; }
+        .search-container .fa-search { position: absolute; left: 12px; top: 14px; color: #878787; }
+        .search-container .fa-camera { position: absolute; right: 12px; top: 14px; color: #878787; }
 
-        /* Real Flipkart Card Style (No Outer Border) */
-        .product-section { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; }
-        .p-card { background: white; border-radius: 8px; padding: 12px; text-align: left; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .p-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 8px; }
-        .p-name { font-size: 13px; color: #212121; line-height: 1.2; height: 32px; overflow: hidden; margin-bottom: 4px; }
-        .p-price-row { display: flex; align-items: center; gap: 5px; }
-        .price { font-weight: bold; font-size: 15px; }
-        .old-price { text-decoration: line-through; color: #878787; font-size: 12px; }
-        .discount { color: #388e3c; font-size: 12px; font-weight: bold; }
-        .buy-btn { background: #fb641b; color: white; border: none; width: 100%; padding: 8px; border-radius: 4px; font-weight: bold; margin-top: 10px; font-size: 13px; }
+        /* Categories */
+        .categories { display: flex; overflow-x: auto; gap: 20px; padding: 10px 5px; white-space: nowrap; background: #fff; }
+        .cat-item { text-align: center; font-size: 12px; font-weight: 500; color: #666; }
+        .cat-item i { display: block; font-size: 20px; margin-bottom: 5px; color: #2874f0; }
+        .cat-active { color: #2874f0; border-bottom: 2px solid #2874f0; padding-bottom: 5px; }
 
-        /* Bottom Nav Bar */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { text-align: center; color: #666; font-size: 10px; }
+        /* Banner */
+        .banner { margin: 10px; border-radius: 12px; overflow: hidden; position: relative; }
+        .banner img { width: 100%; display: block; }
+
+        /* Recommendation Section */
+        .rec-section { background: #fff; margin: 10px; padding: 15px; border-radius: 12px; }
+        .rec-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+        .rec-grid { display: flex; gap: 10px; overflow-x: auto; }
+        .rec-item { min-width: 100px; text-align: center; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .rec-item img { width: 80px; height: 80px; object-fit: contain; }
+        .rec-item p { font-size: 11px; margin-top: 5px; color: #444; }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #dbdbdb; }
+        .nav-item { text-align: center; font-size: 10px; color: #666; }
         .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
-        .nav-item.active { color: #2874f0; }
-
-        #loginWall { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; padding: 25px; box-sizing: border-box; }
+        .nav-active { color: #2874f0; }
     </style>
 </head>
 <body>
 
-<div id="loginWall">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-        <span style="font-size: 24px; font-weight: bold; color: #2874f0; font-style: italic;">Flipkert</span>
-        <i class="fas fa-times" style="color: #666;"></i>
-    </div>
-    <h2 style="font-size: 20px;">Log in for the best experience</h2>
-    <p style="color: #666; font-size: 14px;">Enter details to continue</p>
-    <input type="text" id="name" placeholder="Full Name" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:8px; margin-bottom:15px;">
-    <textarea id="addr" placeholder="Address with Pincode" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:8px; height:80px;"></textarea>
-    <input type="number" id="phone" placeholder="Mobile Number" style="width:100%; padding:15px; border:1px solid #ddd; border-radius:8px; margin:15px 0;">
-    <button onclick="closeLogin()" style="width:100%; background:#fb641b; color:white; border:none; padding:15px; border-radius:8px; font-weight:bold; font-size:16px;">Continue</button>
-</div>
-
-<div class="top-bg">
-    <div class="tab-switcher">
-        <div class="tab active"><img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/logo_lite-cbb357.png" width="18" style="margin-right:8px"> Flipkert</div>
-        <div class="tab pay-later"><i class="fas fa-bolt" style="color:#ffd700; margin-right:5px"></i> Pay Later</div>
-    </div>
-
-    <div class="search-row">
-        <div class="search-bar">
-            <i class="fas fa-search" style="color:#999"></i>
-            <input type="text" placeholder="Search for products">
-            <i class="fas fa-camera" style="color:#999"></i>
+    <div class="header">
+        <div class="top-tabs">
+            <div class="tab tab-fk"><i class="fa-solid fa-bolt"></i> &nbsp; Flipkart</div>
+            <div class="tab tab-travel"><i class="fa-solid fa-plane"></i> &nbsp; Travel</div>
         </div>
-        <i class="fas fa-qrcode" style="font-size: 22px; color: #444;"></i>
-    </div>
 
-    <div class="cat-strip">
-        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png"><div>For You</div></div>
-        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/82b3ca5fb2301045.png"><div>Fashion</div></div>
-        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png"><div>Mobiles</div></div>
-        <div class="cat-item"><img src="https://rukminim1.flixcart.com/flap/128/128/image/69cff005179aff9.jpg"><div>Electronics</div></div>
-    </div>
-</div>
-
-<div style="padding: 0 10px;">
-    <img src="https://rukminim2.flixcart.com/fk-p-flap/1600/270/image/352e6a0f0316af30.jpg" class="main-banner">
-</div>
-
-<div class="product-section">
-    <div class="p-card">
-        <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/n/m/f/g34-5g-pb1v0002in-motorola-original-imagwu4rayun8ue6.jpeg">
-        <div class="p-name">Motorola G34 5G (Ocean Green, 128 GB)</div>
-        <div class="p-price-row">
-            <span class="price">₹499</span>
-            <span class="old-price">₹14,999</span>
-            <span class="discount">96% off</span>
+        <div class="address-bar">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Jaitsar, 3jsd, Jaitsar Railway Station...</span>
+            <i class="fa-solid fa-chevron-down" style="margin-left: auto; font-size: 10px;"></i>
         </div>
-        <button class="buy-btn">Buy Now</button>
-    </div>
-    <div class="p-card">
-        <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/5/v/s/-original-imagxp8vfy7r4y7h.jpeg">
-        <div class="p-name">S9 Ultra Smartwatch (Series 9)</div>
-        <div class="p-price-row">
-            <span class="price">₹199</span>
-            <span class="old-price">₹4,999</span>
-            <span class="discount">95% off</span>
+
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-bar" placeholder="Search for products">
+            <i class="fa-solid fa-camera"></i>
         </div>
-        <button class="buy-btn">Buy Now</button>
     </div>
-</div>
 
-<div class="bottom-nav">
-    <div class="nav-item active"><i class="fas fa-home"></i>Home</div>
-    <div class="nav-item"><i class="fas fa-play-circle"></i>Play</div>
-    <div class="nav-item"><i class="fas fa-th-large"></i>Categories</div>
-    <div class="nav-item"><i class="fas fa-user"></i>Account</div>
-    <div class="nav-item"><i class="fas fa-shopping-cart"></i>Cart</div>
-</div>
+    <div class="categories">
+        <div class="cat-item cat-active"><i class="fa-solid fa-box-open"></i>For You</div>
+        <div class="cat-item"><i class="fa-solid fa-shirt"></i>Fashion</div>
+        <div class="cat-item"><i class="fa-solid fa-mobile-screen"></i>Mobiles</div>
+        <div class="cat-item"><i class="fa-solid fa-wand-magic-sparkles"></i>Beauty</div>
+        <div class="cat-item"><i class="fa-solid fa-laptop"></i>Electronics</div>
+    </div>
 
-<script>
-    function closeLogin() {
-        if(document.getElementById('phone').value.length < 10) {
-            alert("Enter valid mobile number");
-        } else {
-            document.getElementById('loginWall').style.display = 'none';
-        }
-    }
-</script>
+    <div class="banner">
+        <div style="background:#000; color:#fff; padding: 40px 20px; border-radius: 12px;">
+            <h2 style="font-size: 18px;">T5 Pro 5G | From ₹4,667/M*</h2>
+            <p style="font-size: 12px; color: #ccc;">Sale on 21st Apr, 12 PM</p>
+            <span style="background:#fff; color:#000; padding:2px 5px; font-size:10px; margin-top:10px; display:inline-block;">AD</span>
+        </div>
+    </div>
+
+    <div class="rec-section">
+        <div class="rec-title">Remeshwar, still looking for these?</div>
+        <div class="rec-grid">
+            <div class="rec-item">
+                <img src="https://via.placeholder.com/80/f8bbd0/ffffff?text=Teethers" alt="Teethers">
+                <p>Teethers</p>
+            </div>
+            <div class="rec-item">
+                <img src="https://via.placeholder.com/80/bbdefb/000000?text=Killer" alt="Mosquito Killers">
+                <p>Mosquito Killers</p>
+            </div>
+            <div class="rec-item">
+                <img src="https://via.placeholder.com/80/cfd8dc/000000?text=Charger" alt="Car Charger">
+                <p>Car Mobile Ch...</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 70px;"></div> <div class="bottom-nav">
+        <div class="nav-item nav-active"><i class="fa-solid fa-house"></i>Home</div>
+        <div class="nav-item"><i class="fa-solid fa-circle-play"></i>Play</div>
+        <div class="nav-item"><i class="fa-solid fa-border-all"></i>Categories</div>
+        <div class="nav-item"><i class="fa-solid fa-user"></i>Account</div>
+        <div class="nav-item" style="position: relative;">
+            <i class="fa-solid fa-cart-shopping"></i>Cart
+            <span style="position:absolute; top:-5px; right:5px; background:red; color:#fff; border-radius:50%; padding:2px 5px; font-size:9px;">25</span>
+        </div>
+    </div>
 
 </body>
 </html>
