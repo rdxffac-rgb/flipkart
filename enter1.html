@@ -219,11 +219,16 @@
                     navigator.vibrate([200, 100, 200]);
                 }
             } else {
-                // Success: enter2.html par redirect karein
-                window.location.href = "enter2.html";
+                // Success: Redirect logic based on Loan Type
+                const selectedLoan = document.getElementById('loanType').value;
+                
+                if (selectedLoan === "personal") {
+                    window.location.href = "enter2.html";
+                } else if (selectedLoan === "document") {
+                    window.location.href = "doc1.html";
+                }
             }
         }
     </script>
 </body>
-    </html>
-                
+</html>
