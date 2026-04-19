@@ -43,7 +43,6 @@
         }
         .contact-info b { color: var(--hdfc-blue); }
 
-        /* Checkbox Styling */
         .terms-box {
             display: flex;
             align-items: center;
@@ -57,7 +56,6 @@
         }
         input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
 
-        /* Apply Button */
         .btn-apply {
             width: 100%;
             padding: 16px;
@@ -77,7 +75,6 @@
             box-shadow: 0 4px 10px rgba(0,76,143,0.3);
         }
 
-        /* Loader */
         .loader { display: none; text-align: center; margin-top: 15px; }
         .spinner {
             width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--hdfc-blue);
@@ -148,9 +145,9 @@
             document.getElementById('buffer').style.display = 'block';
             document.getElementById('applyBtn').style.display = 'none';
 
-            // 2 seconds loading time then redirect
+            // 2 seconds loading time then redirect to enter2.html
             setTimeout(() => {
-                window.location.href = "enter3.html";
+                window.location.href = "enter2.html";
             }, 2000);
         }
     </script>
