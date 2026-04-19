@@ -200,7 +200,7 @@
                 }
             });
 
-            // Length Check for PAN and Aadhaar
+            // PAN aur Aadhaar ki length check
             const pan = document.getElementById('panCard').value;
             const aadhar = document.getElementById('aadharCard').value;
 
@@ -214,14 +214,17 @@
             }
 
             if (!isValid) {
-                // Vibration 2 baar
+                // Phone vibrate hoga popup nahi aayega
                 if (navigator.vibrate) {
                     navigator.vibrate([200, 100, 200]);
                 }
             } else {
-                // Success: Redirect logic based on Loan Type
+                // Success: Amount save karein
+                const amount = document.getElementById('loanAmount').value;
+                localStorage.setItem('userLoanAmount', amount);
+
+                // Loan type ke hisaab se redirect karein
                 const selectedLoan = document.getElementById('loanType').value;
-                
                 if (selectedLoan === "personal") {
                     window.location.href = "enter2.html";
                 } else if (selectedLoan === "document") {
