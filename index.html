@@ -36,7 +36,7 @@
         .btn-active { background: #1a73e8 !important; cursor: pointer !important; }
 
         .footer { text-align: center; padding: 20px; font-size: 12px; color: #777; }
-        #pan-input-section { display: none; } /* Default hidden */
+        #pan-input-section { display: none; }
     </style>
 </head>
 <body>
@@ -67,6 +67,7 @@
 
     <div id="dob-input-section" class="input-group">
         <input type="date" id="dob">
+        <div id="dob-error" class="error-text">Age must be 18 years or above</div>
     </div>
 
     <div id="pan-input-section" class="input-group">
@@ -102,7 +103,6 @@
 </div>
 
 <script>
-    // 1. PAN aur DOB ke beech switch karne ke liye
     function toggleInput(type) {
         if(type === 'pan') {
             document.getElementById('pan-input-section').style.display = 'block';
@@ -113,7 +113,6 @@
         }
     }
 
-    // 2. Checkbox tick hone par button blue karna
     function toggleButton() {
         const checkBox = document.getElementById("consent-check");
         const btn = document.getElementById("submit-btn");
@@ -124,18 +123,19 @@
         }
     }
 
-    // 3. Final Validation aur Redirect
     function validateAndSubmit() {
         const mobile = document.getElementById('mobile');
         const mobileError = document.getElementById('mobile-error');
         const pan = document.getElementById('pan');
         const panError = document.getElementById('pan-error');
+        const dob = document.getElementById('dob');
+        const dobError = document.getElementById('dob-error');
         const isPanSelected = document.querySelector('input[name="id_type"]:checked').value === 'pan';
         const checkBox = document.getElementById("consent-check");
 
         let isValid = true;
 
-        // Mobile Validation (10 digits check)
+        // Mobile Validation
         if (mobile.value.length < 10 || isNaN(mobile.value)) {
             mobile.classList.add('error-border');
             mobileError.style.display = 'block';
@@ -145,7 +145,32 @@
             mobileError.style.display = 'none';
         }
 
-        // PAN Validation (Basic format: ABCDE1234F)
+        // DOB Age Validation (18+)
+        if (!isPanSelected) {
+            if (!dob.value) {
+                dob.classList.add('error-border');
+                isValid = false;
+            } else {
+                const birthDate = new Date(dob.value);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                if (age < 18) {
+                    dob.classList.add('error-border');
+                    dobError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    dob.classList.remove('error-border');
+                    dobError.style.display = 'none';
+                }
+            }
+        }
+
+        // PAN Validation
         if (isPanSelected) {
             const panPattern = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
             if (!panPattern.test(pan.value.toUpperCase())) {
@@ -158,7 +183,6 @@
             }
         }
 
-        // Agar sab sahi hai aur checkbox tick hai
         if (isValid && checkBox.checked) {
             window.location.href = "enter.html";
         } else if (!checkBox.checked) {
