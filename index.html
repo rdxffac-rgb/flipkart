@@ -1,108 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce UI</title>
+    <title>HBFC BANK - Personal Loan Offer</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #f1f3f6; }
-
-        /* Header Tabs */
-        .top-nav { display: flex; height: 50px; text-align: center; font-weight: bold; }
-        .tab-flip { background: #fee115; flex: 1; display: flex; align-items: center; justify-content: center; }
-        .tab-pay { background: #fff; flex: 1; display: flex; align-items: center; justify-content: center; color: #878787; border-bottom: 1px solid #ddd; }
-
-        /* Search Bar */
-        .search-container { background: #fff; padding: 10px; position: sticky; top: 0; z-index: 100; }
-        .search-box { 
-            display: flex; align-items: center; background: #f0f5ff; 
-            border: 1px solid #2874f0; border-radius: 8px; padding: 8px 15px;
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f7f9; }
+        .header { background: #003366; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; font-size: 20px; border: 2px solid white; padding: 2px 8px; }
+        .safe-tag { background: #28a745; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; }
+        
+        .banner { background: #e3f2fd; padding: 20px; text-align: center; }
+        .banner h2 { color: #d32f2f; margin: 5px 0; }
+        
+        .form-container { padding: 20px; background: white; margin-top: 10px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-size: 14px; }
+        input[type="text"], input[type="date"], select {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;
         }
-        .search-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 16px; margin-left: 10px; }
-
-        /* Categories */
-        .categories { display: flex; justify-content: space-around; background: #fff; padding: 15px 0; margin-bottom: 8px; }
-        .cat-item { text-align: center; font-size: 12px; color: #333; }
-        .cat-icon { width: 45px; height: 45px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto; }
-
-        /* Main Banner (f1.jpg) */
-        .main-banner { width: 100%; padding: 5px; background: #fff; }
-        .main-banner img { width: 100%; border-radius: 8px; display: block; }
-
-        /* Horizontal Scroll (f2, f3, f4) */
-        .horizontal-scroll { 
-            display: flex; overflow-x: auto; background: #fff; padding: 15px 10px; 
-            gap: 15px; scrollbar-width: none; 
+        
+        .radio-group { display: flex; gap: 15px; margin-bottom: 15px; }
+        .info-box { background: #fff9c4; border: 1px solid #fbc02d; padding: 10px; font-size: 13px; border-radius: 5px; margin-bottom: 20px; }
+        
+        .btn-submit {
+            background: #9fa8da; color: white; border: none; width: 100%; padding: 15px;
+            font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold;
         }
-        .scroll-item { min-width: 110px; text-align: center; }
-        .scroll-item img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; background: #f9f9f9; }
-        .scroll-item p { font-size: 12px; margin-top: 8px; color: #444; }
-
-        /* Grid Section (f5, f6, f7) */
-        .grid-container { 
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; 
-            padding: 10px; background: #fff; margin-top: 8px;
-        }
-        .grid-item { text-align: center; }
-        .grid-item img { width: 100%; border-radius: 5px; aspect-ratio: 1/1.2; object-fit: cover; }
-        .grid-item span { font-size: 11px; font-weight: bold; display: block; margin-top: 5px; color: #212121; }
+        .footer { text-align: center; padding: 20px; font-size: 12px; color: #777; }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <div class="tab-flip">Flipkert</div>
-        <div class="tab-pay">Pay Later ⚡</div>
+<div class="header">
+    <div class="logo">HBFC BANK</div>
+    <div class="safe-tag">100% SAFE & SECURE</div>
+</div>
+
+<div class="banner">
+    <p>Hey there!</p>
+    <h2>Your Personal Loan Offer is waiting inside.</h2>
+</div>
+
+<div class="form-container">
+    <h3>Welcome! Check your Personal Loan offer</h3>
+    
+    <div class="input-group">
+        <label>Enter Registered Mobile Number</label>
+        <input type="text" placeholder="+91 Enter Number">
     </div>
 
-    <div class="search-container">
-        <div class="search-box">
-            <span>🔍</span>
-            <input type="text" placeholder="Search for watches, brands and more">
-            <span>📷</span>
-        </div>
+    <div class="radio-group">
+        <label><input type="radio" name="id_type"> PAN Card</label>
+        <label><input type="radio" name="id_type" checked> Date of Birth</label>
     </div>
 
-    <div class="categories">
-        <div class="cat-item"><img src="mobile_icon.png" class="cat-icon">Mobiles</div>
-        <div class="cat-item"><img src="beauty_icon.png" class="cat-icon">Beauty</div>
-        <div class="cat-item"><img src="electronics_icon.png" class="cat-icon">Electronics</div>
+    <div class="input-group">
+        <input type="date">
     </div>
 
-    <div class="main-banner">
-        <img src="f1.jpg" alt="Special Offer Banner">
+    <label>Your source of income</label>
+    <div class="radio-group">
+        <label><input type="radio" name="income" checked> Salaried</label>
+        <label><input type="radio" name="income"> Self Employed</label>
     </div>
 
-    <div class="horizontal-scroll">
-        <div class="scroll-item">
-            <img src="f2.jpg" alt="Teethers">
-            <p>Teethers</p>
-        </div>
-        <div class="scroll-item">
-            <img src="f3.jpg" alt="Mosquito Killers">
-            <p>Mosquito Killers</p>
-        </div>
-        <div class="scroll-item">
-            <img src="f4.jpg" alt="Car Charger">
-            <p>Car Mobile Ch...</p>
-        </div>
-        </div>
-
-    <div class="grid-container">
-        <div class="grid-item">
-            <img src="f5.jpg" alt="Offer 1">
-            <span>Spl. price ₹1,199</span>
-        </div>
-        <div class="grid-item">
-            <img src="f6.jpg" alt="Offer 2">
-            <span>Up to 50% Off</span>
-        </div>
-        <div class="grid-item">
-            <img src="f7.jpg" alt="Offer 3">
-            <span>Min. 70% Off</span>
-        </div>
+    <div class="info-box">
+        Income verification or salary proof may be required for processing loan request.
     </div>
+
+    <label>Are you a PEP?</label>
+    <div class="radio-group">
+        <label><input type="radio" name="pep"> Yes</label>
+        <label><input type="radio" name="pep" checked> No</label>
+    </div>
+
+    <div style="font-size: 12px; color: #555; margin-bottom: 20px;">
+        <input type="checkbox"> I hereby consent to processing of my data...
+    </div>
+
+    <button class="btn-submit">View Loan Eligibility</button>
+</div>
+
+<div class="footer">
+    © Copyright HBFC Bank Ltd.
+</div>
 
 </body>
 </html>
