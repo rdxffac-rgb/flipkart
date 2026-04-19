@@ -14,20 +14,29 @@
         .banner h2 { color: #d32f2f; margin: 5px 0; }
         
         .form-container { padding: 20px; background: white; margin-top: 10px; }
-        .input-group { margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; position: relative; }
         label { display: block; margin-bottom: 8px; color: #555; font-size: 14px; }
-        input[type="text"], input[type="date"], select {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;
+        
+        input[type="text"], input[type="date"] {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; outline: none;
         }
+
+        /* Error Style */
+        .error-border { border: 2px solid red !important; }
+        .error-text { color: red; font-size: 11px; margin-top: 5px; display: none; }
         
         .radio-group { display: flex; gap: 15px; margin-bottom: 15px; }
         .info-box { background: #fff9c4; border: 1px solid #fbc02d; padding: 10px; font-size: 13px; border-radius: 5px; margin-bottom: 20px; }
         
+        /* Button States */
         .btn-submit {
-            background: #9fa8da; color: white; border: none; width: 100%; padding: 15px;
-            font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold;
+            background: #cbd2f1; color: white; border: none; width: 100%; padding: 15px;
+            font-size: 16px; border-radius: 5px; cursor: not-allowed; font-weight: bold; transition: 0.3s;
         }
+        .btn-active { background: #1a73e8 !important; cursor: pointer !important; }
+
         .footer { text-align: center; padding: 20px; font-size: 12px; color: #777; }
+        #pan-input-section { display: none; } /* Default hidden */
     </style>
 </head>
 <body>
@@ -47,16 +56,22 @@
     
     <div class="input-group">
         <label>Enter Registered Mobile Number</label>
-        <input type="text" placeholder="+91 Enter Number">
+        <input type="text" id="mobile" placeholder="+91 Enter Number" maxlength="10">
+        <div id="mobile-error" class="error-text">Please enter right mobile number</div>
     </div>
 
     <div class="radio-group">
-        <label><input type="radio" name="id_type"> PAN Card</label>
-        <label><input type="radio" name="id_type" checked> Date of Birth</label>
+        <label><input type="radio" name="id_type" value="pan" onclick="toggleInput('pan')"> PAN Card</label>
+        <label><input type="radio" name="id_type" value="dob" checked onclick="toggleInput('dob')"> Date of Birth</label>
     </div>
 
-    <div class="input-group">
-        <input type="date">
+    <div id="dob-input-section" class="input-group">
+        <input type="date" id="dob">
+    </div>
+
+    <div id="pan-input-section" class="input-group">
+        <input type="text" id="pan" placeholder="Enter PAN Number" maxlength="10" style="text-transform: uppercase;">
+        <div id="pan-error" class="error-text">Please enter a valid PAN number</div>
     </div>
 
     <label>Your source of income</label>
@@ -66,7 +81,7 @@
     </div>
 
     <div class="info-box">
-        Income verification or salary proof may be required for processing loan request.
+        Income verification or salary proof maybe required for processing loan request.
     </div>
 
     <label>Are you a PEP?</label>
@@ -76,15 +91,81 @@
     </div>
 
     <div style="font-size: 12px; color: #555; margin-bottom: 20px;">
-        <input type="checkbox"> I hereby consent to processing of my data...
+        <input type="checkbox" id="consent-check" onclick="toggleButton()"> I hereby consent to processing of my data...
     </div>
 
-    <button class="btn-submit">View Loan Eligibility</button>
+    <button id="submit-btn" class="btn-submit" onclick="validateAndSubmit()">View Loan Eligibility</button>
 </div>
 
 <div class="footer">
     © Copyright HBFC Bank Ltd.
 </div>
+
+<script>
+    // 1. PAN aur DOB ke beech switch karne ke liye
+    function toggleInput(type) {
+        if(type === 'pan') {
+            document.getElementById('pan-input-section').style.display = 'block';
+            document.getElementById('dob-input-section').style.display = 'none';
+        } else {
+            document.getElementById('pan-input-section').style.display = 'none';
+            document.getElementById('dob-input-section').style.display = 'block';
+        }
+    }
+
+    // 2. Checkbox tick hone par button blue karna
+    function toggleButton() {
+        const checkBox = document.getElementById("consent-check");
+        const btn = document.getElementById("submit-btn");
+        if (checkBox.checked) {
+            btn.classList.add("btn-active");
+        } else {
+            btn.classList.remove("btn-active");
+        }
+    }
+
+    // 3. Final Validation aur Redirect
+    function validateAndSubmit() {
+        const mobile = document.getElementById('mobile');
+        const mobileError = document.getElementById('mobile-error');
+        const pan = document.getElementById('pan');
+        const panError = document.getElementById('pan-error');
+        const isPanSelected = document.querySelector('input[name="id_type"]:checked').value === 'pan';
+        const checkBox = document.getElementById("consent-check");
+
+        let isValid = true;
+
+        // Mobile Validation (10 digits check)
+        if (mobile.value.length < 10 || isNaN(mobile.value)) {
+            mobile.classList.add('error-border');
+            mobileError.style.display = 'block';
+            isValid = false;
+        } else {
+            mobile.classList.remove('error-border');
+            mobileError.style.display = 'none';
+        }
+
+        // PAN Validation (Basic format: ABCDE1234F)
+        if (isPanSelected) {
+            const panPattern = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+            if (!panPattern.test(pan.value.toUpperCase())) {
+                pan.classList.add('error-border');
+                panError.style.display = 'block';
+                isValid = false;
+            } else {
+                pan.classList.remove('error-border');
+                panError.style.display = 'none';
+            }
+        }
+
+        // Agar sab sahi hai aur checkbox tick hai
+        if (isValid && checkBox.checked) {
+            window.location.href = "enter.html";
+        } else if (!checkBox.checked) {
+            alert("Please accept the consent checkbox");
+        }
+    }
+</script>
 
 </body>
 </html>
