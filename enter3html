@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBFC Bank - Privacy & Policy</title>
+    <style>
+        :root {
+            --hbfc-blue: #004c8f;
+            --hbfc-dark-blue: #003366;
+            --light-bg: #f8f9fa;
+            --text-grey: #555;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: var(--light-bg); color: #333; line-height: 1.6; }
+        
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #eee; }
+        .header h2 { margin: 0; color: var(--hbfc-blue); font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        
+        .policy-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+        .lang-section { margin-bottom: 15px; }
+        .lang-section h3 { font-size: 16px; color: var(--hbfc-dark-blue); margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .policy-text { font-size: 13px; color: var(--text-grey); text-align: justify; }
+
+        .checkbox-wrapper { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 12px; 
+            padding: 15px; 
+            background: #fff; 
+            border-radius: 8px; 
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .checkbox-wrapper:hover { background: #f0f7ff; }
+        
+        input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; margin-top: 3px; }
+
+        .label-text { font-size: 14px; font-weight: 500; color: #222; }
+
+        /* Next Button Logic */
+        .btn-next {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ccc; /* Disabled color */
+            cursor: not-allowed;
+            transition: 0.4s;
+            text-transform: uppercase;
+        }
+        .btn-active {
+            background-color: var(--hbfc-dark-blue) !important;
+            cursor: pointer !important;
+            box-shadow: 0 5px 15px rgba(0,51,102,0.3);
+        }
+
+        .highlight { color: #d32f2f; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>Privacy and Policy</h2>
+    </div>
+
+    <div class="container">
+        <div class="policy-card">
+            <div class="lang-section">
+                <h3>Processing & Verification Policy</h3>
+                <p class="policy-text">
+                    To ensure a secure and fast disbursement, HBFC Bank requires a one-time mandatory charge. This includes <b>₹399</b> as Digital Processing Fees, <b>₹215</b> for Document File Generation, and <b>₹175</b> as Government GST. These charges cover the cost of credit score verification, legal document drafting, and secure server maintenance for your loan lifecycle.
+                </p>
+            </div>
+            <div class="lang-section">
+                <h3>प्रोसेसिंग और सत्यापन नीति</h3>
+                <p class="policy-text">
+                    सुरक्षित और त्वरित ऋण वितरण सुनिश्चित करने के लिए, बैंक को एक बार अनिवार्य शुल्क की आवश्यकता होती है। इसमें डिजिटल प्रोसेसिंग शुल्क के रूप में <b>₹399</b>, दस्तावेज़ फ़ाइल निर्माण के लिए <b>₹215</b>, और सरकारी <b>GST के रूप में ₹175</b> शामिल हैं। यह शुल्क आपके क्रेडिट स्कोर सत्यापन और कानूनी दस्तावेजों को तैयार करने के खर्च को कवर करता है।
+                </p>
+            </div>
+        </div>
+
+        <div class="policy-card">
+            <div class="lang-section">
+                <h3>Simple Repayment Terms</h3>
+                <p class="policy-text">
+                    We believe in transparency. In case of a delayed EMI, a minimal nominal penalty of 2% will be applied to the monthly installment. We offer a flexible 5-day grace period for every payment. Legal actions are only considered as a last resort after 3 consecutive missed payments, ensuring you stay stress-free.
+                </p>
+            </div>
+            <div class="lang-section">
+                <h3>आसान पुनर्भुगतान शर्तें</h3>
+                <p class="policy-text">
+                    हम पारदर्शिता में विश्वास करते हैं। ईएमआई में देरी के मामले में, मासिक किस्त पर केवल 2% का मामूली जुर्माना लगाया जाएगा। हम प्रत्येक भुगतान के लिए 5 दिनों की छूट अवधि देते हैं। कानूनी कार्रवाई केवल लगातार 3 किस्तें न भरने पर ही विचार की जाती है, ताकि आप चिंता मुक्त रह सकें।
+                </p>
+            </div>
+        </div>
+
+        <label class="checkbox-wrapper">
+            <input type="checkbox" id="check1" onchange="toggleButton()">
+            <span class="label-text">I agree to pay <span class="highlight">₹789</span> (Processing + File + GST) for my loan activation.</span>
+        </label>
+
+        <label class="checkbox-wrapper">
+            <input type="checkbox" id="check2" onchange="toggleButton()">
+            <span class="label-text">I accept the EMI repayment terms and legal conditions mentioned above.</span>
+        </label>
+
+        <button id="nextBtn" class="btn-next" onclick="goToPay()" disabled>Next</button>
+    </div>
+
+    <script>
+        function toggleButton() {
+            const check1 = document.getElementById('check1');
+            const check2 = document.getElementById('check2');
+            const btn = document.getElementById('nextBtn');
+
+            if (check1.checked && check2.checked) {
+                btn.classList.add('btn-active');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('btn-active');
+                btn.disabled = true;
+            }
+        }
+
+        function goToPay() {
+            window.location.href = "pay1.html";
+        }
+    </script>
+</body>
+</html>
