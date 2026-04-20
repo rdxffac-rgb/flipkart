@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HDFC Bank - Verify Details</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         :root {
             --hdfc-blue: #004c8f;
@@ -16,22 +15,22 @@
             background-color: #f5f5f5;
         }
         
-        /* Blue Header */
+        /* Blue Header - Matching Original */
         .header-main {
             background-color: var(--hdfc-blue);
             color: white;
-            padding: 20px 15px 40px 15px;
+            padding: 15px 15px 60px 15px; /* Bottom padding increased for curve */
             position: relative;
         }
         
-        /* Logo settings for logo.png */
         .real-logo-img { 
-            height: 40px; 
+            height: 25px; 
             width: auto;
             margin-bottom: 25px;
-            background-color: white; /* Logo ke peeche white background agar zarurat ho */
-            padding: 5px;
+            background-color: white; 
+            padding: 5px 8px;
             border-radius: 2px;
+            display: block;
         }
 
         .progress-row {
@@ -43,46 +42,68 @@
         .step-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .circle-num {
             border: 1px solid white;
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .step-text {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 400;
         }
 
-        /* 10% Complete box */
+        /* 50% Complete box - Original Style */
         .percent-box {
             text-align: center;
         }
-        .percent-box span {
-            font-size: 12px;
-            display: block;
+        
+        .progress-square {
+            background: white; 
+            width: 22px; 
+            height: 22px; 
+            margin: 0 auto 4px auto; 
+            position: relative; 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .progress-fill {
+            background: #28a745; 
+            width: 11px; /* 50% Fill */
+            height: 11px; 
+            position: absolute; 
+            top: 0; 
+            right: 0;
         }
 
-        /* Form Container with Curve Effect */
+        .percent-box span {
+            font-size: 11px;
+            display: block;
+            opacity: 0.9;
+        }
+
+        /* Form Container with the Correct Curve */
         .form-container {
             background: white;
             padding: 30px 20px;
-            margin-top: -30px; 
-            border-top-left-radius: 40px;
+            margin-top: -45px; /* Pulling up to create the overlap */
+            border-top-left-radius: 45px; /* Deep curve as per photo */
             border-top-right-radius: 0px;
             min-height: 100vh;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 2;
         }
 
-        h2 { font-size: 22px; color: #333; margin-bottom: 25px; font-weight: 400; }
+        h2 { font-size: 21px; color: #333; margin-bottom: 25px; font-weight: 400; }
         .input-group { margin-bottom: 22px; }
         label { display: block; color: #666; font-size: 15px; margin-bottom: 10px; }
         
@@ -95,6 +116,7 @@
             outline: none;
             transition: border-color 0.3s;
             background: transparent;
+            border-radius: 0;
         }
         input:focus { border-bottom: 1px solid var(--hdfc-blue); }
 
@@ -103,7 +125,6 @@
         .gender-options { display: flex; gap: 20px; margin-top: 10px; }
         .gender-options label { display: flex; align-items: center; gap: 8px; font-weight: normal; color: #333; }
         
-        /* Amount Field */
         .amount-wrapper {
             position: relative;
             display: flex;
@@ -131,10 +152,16 @@
             text-transform: uppercase;
         }
         
-        /* Disabled button style */
         .btn-apply:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
+        }
+
+        footer-bank {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -149,10 +176,10 @@
                 <div class="step-text">Please verify your details</div>
             </div>
             <div class="percent-box">
-                <div style="background: white; width: 25px; height: 25px; margin: 0 auto; position: relative; border: 1px solid #ddd;">
-                    <div style="background: #28a745; width: 10px; height: 10px; position: absolute; top: 0; right: 0;"></div>
+                <div class="progress-square">
+                    <div class="progress-fill"></div>
                 </div>
-                <span>10% complete</span>
+                <span>50% complete</span>
             </div>
         </div>
     </div>
@@ -213,6 +240,10 @@
         </div>
 
         <button class="btn-apply" id="submitBtn" onclick="validateForm()">Apply Now</button>
+        
+        <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-size: 13px; color: #888;">
+            © Copyright HDFC Bank Ltd. 2026. All rights reserved.
+        </div>
     </div>
 
     <script>
