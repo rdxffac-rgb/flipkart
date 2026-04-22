@@ -8,12 +8,10 @@
         :root {
             --hbfc-blue: #004c8f;
             --hbfc-dark: #003366;
-            --success-green: #28a745;
             --bg-light: #f4f7f9;
         }
         body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; margin: 0; background-color: var(--bg-light); color: #333; line-height: 1.5; }
         
-        /* Header */
         .header { background: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--hbfc-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .header h2 { margin: 0; color: var(--hbfc-blue); font-size: 17px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
 
@@ -25,13 +23,11 @@
 
         .container { padding: 15px; max-width: 450px; margin: 0 auto; }
         
-        /* QR Card */
         .qr-card { background: white; border-radius: 15px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); margin-bottom: 20px; }
         .qr-card img { width: 180px; height: 180px; margin: 15px 0; border: 1px solid #eee; padding: 10px; border-radius: 12px; }
         .amount-text { font-size: 32px; font-weight: 800; color: var(--hbfc-blue); margin: 5px 0; }
         .upi-id-tag { font-size: 13px; color: #555; background: #eef2f7; padding: 6px 12px; border-radius: 20px; border: 1px solid #d1d9e6; display: inline-block; }
 
-        /* Payment Apps Grid */
         .payment-methods { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .payment-methods h4 { margin: 0 0 15px 0; font-size: 14px; color: #666; text-align: center; text-transform: uppercase; }
         
@@ -47,7 +43,6 @@
             display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        /* Info Section */
         .info-card { background: white; border-radius: 12px; padding: 20px; border-left: 5px solid var(--hbfc-blue); margin-bottom: 20px; }
         .lang-section { margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; }
         .lang-section:last-child { border-bottom: none; }
@@ -91,7 +86,7 @@
             <h4>Select App to Pay</h4>
             <div class="upi-grid">
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1024px-PhonePe_Logo.svg.png" alt="PhonePe">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0N-9U4j6x84E6y_K4PCHGqZp6V0n96k9L3w&s" alt="PhonePe">
                     <span>PhonePe</span>
                 </a>
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
