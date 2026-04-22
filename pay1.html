@@ -37,7 +37,8 @@
         
         .upi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
         .upi-item { text-align: center; cursor: pointer; text-decoration: none; }
-        .upi-item img { width: 45px; height: 45px; border-radius: 10px; margin-bottom: 5px; transition: transform 0.2s; }
+        /* Adjusted icon size and styling for 100% visibility */
+        .upi-item img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 5px; transition: transform 0.2s; }
         .upi-item:active img { transform: scale(0.9); }
         .upi-item span { display: block; font-size: 11px; color: #444; font-weight: 600; }
 
@@ -91,19 +92,19 @@
             <h4>Select App to Pay</h4>
             <div class="upi-grid">
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-phonepe-logo-icon-download-in-svg-png-gif-file-formats--messaging-messenger-contact-social-media-pack-logos-icons-441954.png" alt="PhonePe">
+                    <img src="https://img.icons8.com/color/144/phonepe.png" alt="PhonePe">
                     <span>PhonePe</span>
                 </a>
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://cdn.iconscout.com/icon/free/png-256/free-google-pay-logo-icon-download-in-svg-png-gif-file-formats--brand-logos-pack-icons-1898246.png" alt="GPay">
+                    <img src="https://img.icons8.com/color/144/google-pay-india.png" alt="GPay">
                     <span>GPay</span>
                 </a>
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://static.vecteezy.com/system/resources/previews/022/100/775/non_2x/paytm-logo-transparent-free-png.png" alt="Paytm">
+                    <img src="https://img.icons8.com/color/144/paytm.png" alt="Paytm">
                     <span>Paytm</span>
                 </a>
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/BHIM_Logo.png/640px-BHIM_Logo.png" alt="BHIM">
+                    <img src="https://img.icons8.com/color/144/bhim.png" alt="BHIM">
                     <span>BHIM</span>
                 </a>
             </div>
@@ -140,7 +141,6 @@
     </div>
 
     <script>
-        // 24 Hour Countdown Timer
         let time = 24 * 60 * 60;
         const timerEl = document.getElementById('timer');
         function updateTimer() {
